@@ -1,34 +1,43 @@
 import SwiftUI
 
-struct NewTripView: View {
+struct TripFormView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State private var tripName: String = ""
-    var viewModel: TripListViewModel
+    @ObservedObject var viewModel: TripListViewModel
+    @State private var name: String
+    var trip: Trip?
+
+    init(viewModel: TripListViewModel, trip: Trip? = nil) {
+        self.viewModel = viewModel
+        self.trip = trip
+        _name = State(initialValue: trip?.name ?? "")
+    }
     
     var body: some View {
         NavigationView {
             Form {
-                TextField("Trip Name", text: $tripName)
-                
-                Button(action: {
-                    viewModel.addTrip(name: tripName)
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Save")
+                Section(header: Text("Trip Name")) {
+                    TextField("Name", text: $name)
                 }
             }
-            .navigationTitle("New Trip")
-            .navigationBarItems(trailing: Button(action: {
+            .navigationTitle(trip == nil ? "New Trip" : "Edit Trip")
+            .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Cancel")
+            }, trailing: Button("Save") {
+                if let trip = trip {
+                    var updatedTrip = trip
+                    updatedTrip.name = name
+                    viewModel.updateTrip(updatedTrip)
+                } else {
+                    viewModel.addTrip(name: name)
+                }
+                presentationMode.wrappedValue.dismiss()
             })
         }
     }
 }
 
-struct NewTripView_Previews: PreviewProvider {
+struct TripFormView_Previews: PreviewProvider {
     static var previews: some View {
-        NewTripView(viewModel: TripListViewModel())
+        TripFormView(viewModel: TripListViewModel())
     }
 }

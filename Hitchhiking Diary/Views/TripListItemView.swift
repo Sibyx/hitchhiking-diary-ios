@@ -1,15 +1,14 @@
 import SwiftUI
 import CoreLocation
 
-struct TripCardView: View {
+struct TripListItemView: View {
     var trip: Trip
     var records: [TripRecord]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 5) {
             Text(trip.name)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.headline)
 
             Text("Records: \(records.count)")
                 .font(.subheadline)
@@ -25,16 +24,11 @@ struct TripCardView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
-        )
+        .padding(.vertical, 10)
     }
 }
 
-struct TripCardView_Previews: PreviewProvider {
+struct TripListItemView_Previews: PreviewProvider {
     static var previews: some View {
         let sampleTrip = Trip(name: "Sample Trip", createdAt: Date(), updatedAt: Date())
         let tripRecords = [
@@ -42,9 +36,8 @@ struct TripCardView_Previews: PreviewProvider {
             TripRecord(tripId: sampleTrip.id, type: .camping, description: "Camped by the river.", location: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), createdAt: Date().addingTimeInterval(-7200)),
             TripRecord(tripId: sampleTrip.id, type: .interesting, description: "Visited a beautiful waterfall.", location: CLLocationCoordinate2D(latitude: 36.7783, longitude: -119.4179), createdAt: Date().addingTimeInterval(-10800))
         ]
-        TripCardView(trip: sampleTrip, records: tripRecords)
+        TripListItemView(trip: sampleTrip, records: tripRecords)
             .padding()
-            .background(Color.gray.opacity(0.1))
             .previewLayout(.sizeThatFits)
     }
 }

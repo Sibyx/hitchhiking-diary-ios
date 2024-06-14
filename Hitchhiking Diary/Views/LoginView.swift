@@ -1,8 +1,38 @@
-//
-//  LoginView.swift
-//  Hitchhiking Diary
-//
-//  Created by Jakub Dubec on 13/06/2024.
-//
+import SwiftUI
 
-import Foundation
+struct LoginView: View {
+    @EnvironmentObject var appState: AppState
+
+    var body: some View {
+        VStack {
+            Spacer()
+
+            Text("Hitchhiking Diary")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.bottom, 20)
+
+            Button(action: {
+                appState.login()
+            }) {
+                Text("Log In")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(15.0)
+                    .padding()
+            }
+
+            Spacer()
+        }
+        .padding()
+    }
+}
+
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginView().environmentObject(AppState())
+    }
+}

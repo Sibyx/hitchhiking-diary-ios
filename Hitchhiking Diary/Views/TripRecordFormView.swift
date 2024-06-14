@@ -4,7 +4,7 @@ import CoreLocation
 struct TripRecordFormView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedType: TripRecordType
-    @State private var description: NSAttributedString
+    @State private var description: String
     @ObservedObject private var locationManager = LocationManager()
     var trip: Trip
     var viewModel: TripDetailViewModel
@@ -17,8 +17,8 @@ struct TripRecordFormView: View {
         self.isEditing = isEditing
         self.recordToEdit = recordToEdit
         
-        _selectedType = State(initialValue: recordToEdit?.type ?? .interestingPoint)
-        _description = State(initialValue: NSAttributedString(string: recordToEdit?.description ?? ""))
+        _selectedType = State(initialValue: recordToEdit?.type ?? .interesting)
+        _description = State(initialValue: recordToEdit?.description ?? "")
     }
 
     var body: some View {
@@ -27,19 +27,17 @@ struct TripRecordFormView: View {
                 Form {
                     Picker("Type", selection: $selectedType) {
                         ForEach(TripRecordType.allCases, id: \.self) { type in
-                            Text(type.rawValue).tag(type)
+                            HStack {
+                                type.icon()
+                                Text(type.rawValue)
+                            }.tag(type)
                         }
                     }
-                    .pickerStyle(SegmentedPickerStyle())
                     
                     Section(header: Text("Description")) {
-                        RichTextView(text: $description)
-                            .frame(height: 200)
-                            .cornerRadius(8)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
+                        TextEditor(text: $description)
+                            .frame(minHeight: 200, maxHeight: .infinity)
+                            .padding(4)
                     }
                     
                     if let location = locationManager.lastLocation {
@@ -73,9 +71,9 @@ struct TripRecordFormView: View {
         if let location = locationManager.lastLocation {
             let locationCoordinate = location.coordinate
             let record = TripRecord(
-                tripID: trip.id,
+                tripId: trip.id,
                 type: selectedType,
-                description: description.string,
+                description: description,
                 location: locationCoordinate,
                 photos: [],
                 createdAt: recordToEdit?.createdAt ?? Date(),

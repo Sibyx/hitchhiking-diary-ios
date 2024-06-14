@@ -1,8 +1,21 @@
-//
-//  ContentView.swift
-//  Hitchhiking Diary
-//
-//  Created by Jakub Dubec on 14/06/2024.
-//
+import SwiftUI
 
-import Foundation
+struct ContentView: View {
+    @EnvironmentObject var appState: AppState
+
+    var body: some View {
+        Group {
+            if appState.isLoggedIn {
+                TripListView()
+            } else {
+                LoginView()
+            }
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView().environmentObject(AppState())
+    }
+}

@@ -7,20 +7,52 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD66AB812C1B8F6D0018C2B8 /* Hitchhiking_DiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB802C1B8F6D0018C2B8 /* Hitchhiking_DiaryApp.swift */; };
-		FD66AB832C1B8F6D0018C2B8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB822C1B8F6D0018C2B8 /* ContentView.swift */; };
-		FD66AB852C1B8F6D0018C2B8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB842C1B8F6D0018C2B8 /* Item.swift */; };
+		FD66AB812C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */; };
 		FD66AB872C1B8F6E0018C2B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */; };
 		FD66AB8A2C1B8F6E0018C2B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD66AB892C1B8F6E0018C2B8 /* Preview Assets.xcassets */; };
+		FD66AB962C1B9B310018C2B8 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB952C1B9B310018C2B8 /* Trip.swift */; };
+		FD66AB982C1B9B4A0018C2B8 /* TripRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB972C1B9B4A0018C2B8 /* TripRecord.swift */; };
+		FD66AB9A2C1B9C050018C2B8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB992C1B9C050018C2B8 /* LoginView.swift */; };
+		FD66AB9C2C1B9C770018C2B8 /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB9B2C1B9C770018C2B8 /* TripListView.swift */; };
+		FD66AB9E2C1B9C960018C2B8 /* TripListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB9D2C1B9C960018C2B8 /* TripListViewModel.swift */; };
+		FD66ABA02C1B9CD50018C2B8 /* TripFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB9F2C1B9CD50018C2B8 /* TripFormView.swift */; };
+		FD66ABA22C1B9DA80018C2B8 /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABA12C1B9DA80018C2B8 /* TripDetailView.swift */; };
+		FD66ABA42C1B9DC40018C2B8 /* TripDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABA32C1B9DC40018C2B8 /* TripDetailViewModel.swift */; };
+		FD66ABA62C1B9E080018C2B8 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABA52C1B9E080018C2B8 /* LocationManager.swift */; };
+		FD66ABA82C1B9E230018C2B8 /* TripRecordFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABA72C1B9E230018C2B8 /* TripRecordFormView.swift */; };
+		FD66ABAA2C1B9EDF0018C2B8 /* TripRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABA92C1B9EDF0018C2B8 /* TripRecordDetailView.swift */; };
+		FD66ABAC2C1B9FC40018C2B8 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABAB2C1B9FC40018C2B8 /* DateFormatter.swift */; };
+		FD66ABAE2C1B9FD70018C2B8 /* SingleCoordinateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABAD2C1B9FD70018C2B8 /* SingleCoordinateMapView.swift */; };
+		FD66ABB02C1BA1120018C2B8 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABAF2C1BA1120018C2B8 /* Persistence.swift */; };
+		FD66ABB22C1BA46A0018C2B8 /* MultiCoordinateMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABB12C1BA46A0018C2B8 /* MultiCoordinateMapView.swift */; };
+		FD66ABB72C1BAEC60018C2B8 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABB62C1BAEC60018C2B8 /* AppState.swift */; };
+		FD66ABB92C1BAEE60018C2B8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABB82C1BAEE60018C2B8 /* ContentView.swift */; };
+		FD66ABBB2C1BB27C0018C2B8 /* TripListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66ABBA2C1BB27C0018C2B8 /* TripListItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FD66AB7D2C1B8F6D0018C2B8 /* Hitchhiking Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hitchhiking Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD66AB802C1B8F6D0018C2B8 /* Hitchhiking_DiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hitchhiking_DiaryApp.swift; sourceTree = "<group>"; };
-		FD66AB822C1B8F6D0018C2B8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		FD66AB842C1B8F6D0018C2B8 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitchhikingDiaryApp.swift; sourceTree = "<group>"; };
 		FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD66AB892C1B8F6E0018C2B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FD66AB952C1B9B310018C2B8 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		FD66AB972C1B9B4A0018C2B8 /* TripRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecord.swift; sourceTree = "<group>"; };
+		FD66AB992C1B9C050018C2B8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		FD66AB9B2C1B9C770018C2B8 /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
+		FD66AB9D2C1B9C960018C2B8 /* TripListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListViewModel.swift; sourceTree = "<group>"; };
+		FD66AB9F2C1B9CD50018C2B8 /* TripFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripFormView.swift; sourceTree = "<group>"; };
+		FD66ABA12C1B9DA80018C2B8 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
+		FD66ABA32C1B9DC40018C2B8 /* TripDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailViewModel.swift; sourceTree = "<group>"; };
+		FD66ABA52C1B9E080018C2B8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		FD66ABA72C1B9E230018C2B8 /* TripRecordFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordFormView.swift; sourceTree = "<group>"; };
+		FD66ABA92C1B9EDF0018C2B8 /* TripRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordDetailView.swift; sourceTree = "<group>"; };
+		FD66ABAB2C1B9FC40018C2B8 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		FD66ABAD2C1B9FD70018C2B8 /* SingleCoordinateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCoordinateMapView.swift; sourceTree = "<group>"; };
+		FD66ABAF2C1BA1120018C2B8 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		FD66ABB12C1BA46A0018C2B8 /* MultiCoordinateMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCoordinateMapView.swift; sourceTree = "<group>"; };
+		FD66ABB62C1BAEC60018C2B8 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		FD66ABB82C1BAEE60018C2B8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FD66ABBA2C1BB27C0018C2B8 /* TripListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +85,13 @@
 		FD66AB7F2C1B8F6D0018C2B8 /* Hitchhiking Diary */ = {
 			isa = PBXGroup;
 			children = (
-				FD66AB802C1B8F6D0018C2B8 /* Hitchhiking_DiaryApp.swift */,
-				FD66AB822C1B8F6D0018C2B8 /* ContentView.swift */,
-				FD66AB842C1B8F6D0018C2B8 /* Item.swift */,
+				FD66ABB52C1BAEBD0018C2B8 /* State */,
+				FD66AB942C1B9A900018C2B8 /* Utils */,
+				FD66AB932C1B9A7D0018C2B8 /* Services */,
+				FD66AB922C1B9A750018C2B8 /* ViewModels */,
+				FD66AB912C1B9A700018C2B8 /* Views */,
+				FD66AB902C1B9A680018C2B8 /* Models */,
+				FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */,
 				FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */,
 				FD66AB882C1B8F6E0018C2B8 /* Preview Content */,
 			);
@@ -68,6 +104,66 @@
 				FD66AB892C1B8F6E0018C2B8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FD66AB902C1B9A680018C2B8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FD66AB952C1B9B310018C2B8 /* Trip.swift */,
+				FD66AB972C1B9B4A0018C2B8 /* TripRecord.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD66AB912C1B9A700018C2B8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FD66AB992C1B9C050018C2B8 /* LoginView.swift */,
+				FD66AB9B2C1B9C770018C2B8 /* TripListView.swift */,
+				FD66AB9F2C1B9CD50018C2B8 /* TripFormView.swift */,
+				FD66ABA12C1B9DA80018C2B8 /* TripDetailView.swift */,
+				FD66ABA72C1B9E230018C2B8 /* TripRecordFormView.swift */,
+				FD66ABA92C1B9EDF0018C2B8 /* TripRecordDetailView.swift */,
+				FD66ABAD2C1B9FD70018C2B8 /* SingleCoordinateMapView.swift */,
+				FD66ABB12C1BA46A0018C2B8 /* MultiCoordinateMapView.swift */,
+				FD66ABB82C1BAEE60018C2B8 /* ContentView.swift */,
+				FD66ABBA2C1BB27C0018C2B8 /* TripListItemView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FD66AB922C1B9A750018C2B8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				FD66ABA32C1B9DC40018C2B8 /* TripDetailViewModel.swift */,
+				FD66AB9D2C1B9C960018C2B8 /* TripListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		FD66AB932C1B9A7D0018C2B8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FD66ABAF2C1BA1120018C2B8 /* Persistence.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FD66AB942C1B9A900018C2B8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				FD66ABA52C1B9E080018C2B8 /* LocationManager.swift */,
+				FD66ABAB2C1B9FC40018C2B8 /* DateFormatter.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		FD66ABB52C1BAEBD0018C2B8 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				FD66ABB62C1BAEC60018C2B8 /* AppState.swift */,
+			);
+			path = State;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,9 +236,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD66AB832C1B8F6D0018C2B8 /* ContentView.swift in Sources */,
-				FD66AB852C1B8F6D0018C2B8 /* Item.swift in Sources */,
-				FD66AB812C1B8F6D0018C2B8 /* Hitchhiking_DiaryApp.swift in Sources */,
+				FD66ABA42C1B9DC40018C2B8 /* TripDetailViewModel.swift in Sources */,
+				FD66ABAE2C1B9FD70018C2B8 /* SingleCoordinateMapView.swift in Sources */,
+				FD66ABB72C1BAEC60018C2B8 /* AppState.swift in Sources */,
+				FD66ABB02C1BA1120018C2B8 /* Persistence.swift in Sources */,
+				FD66ABB22C1BA46A0018C2B8 /* MultiCoordinateMapView.swift in Sources */,
+				FD66ABA22C1B9DA80018C2B8 /* TripDetailView.swift in Sources */,
+				FD66ABBB2C1BB27C0018C2B8 /* TripListItemView.swift in Sources */,
+				FD66ABB92C1BAEE60018C2B8 /* ContentView.swift in Sources */,
+				FD66AB9C2C1B9C770018C2B8 /* TripListView.swift in Sources */,
+				FD66ABAA2C1B9EDF0018C2B8 /* TripRecordDetailView.swift in Sources */,
+				FD66AB9E2C1B9C960018C2B8 /* TripListViewModel.swift in Sources */,
+				FD66AB9A2C1B9C050018C2B8 /* LoginView.swift in Sources */,
+				FD66ABA02C1B9CD50018C2B8 /* TripFormView.swift in Sources */,
+				FD66AB982C1B9B4A0018C2B8 /* TripRecord.swift in Sources */,
+				FD66AB962C1B9B310018C2B8 /* Trip.swift in Sources */,
+				FD66ABAC2C1B9FC40018C2B8 /* DateFormatter.swift in Sources */,
+				FD66ABA62C1B9E080018C2B8 /* LocationManager.swift in Sources */,
+				FD66ABA82C1B9E230018C2B8 /* TripRecordFormView.swift in Sources */,
+				FD66AB812C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +401,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Sibyx.Hitchhiking-Diary";
+				PRODUCT_BUNDLE_IDENTIFIER = Sibyx.HitchhikingDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -318,7 +430,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Sibyx.Hitchhiking-Diary";
+				PRODUCT_BUNDLE_IDENTIFIER = Sibyx.HitchhikingDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

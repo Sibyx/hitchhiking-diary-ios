@@ -1,8 +1,8 @@
-//
-//  DateFormatter.swift
-//  Hitchhiking Diary
-//
-//  Created by Jakub Dubec on 13/06/2024.
-//
-
 import Foundation
+
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    formatter.timeStyle = .short
+    return formatter
+}()
