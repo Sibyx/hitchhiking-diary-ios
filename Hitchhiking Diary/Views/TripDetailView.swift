@@ -16,17 +16,19 @@ struct TripDetailView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
+        VStack(alignment: .leading) {
+            HStack(alignment: .top) {
                 trip.status.icon()
-                    .font(.largeTitle)
+                    .font(.caption)
                 Text(trip.status.rawValue.capitalized)
-                    .font(.title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
-            .padding(.horizontal)
+            .padding()
             
             Text(trip.content)
                 .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
             
             Map() {
                 ForEach(trip.records, id:\.self) {

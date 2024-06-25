@@ -4,9 +4,6 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.modelContext) var modelContext
 
-    @State private var sortOrder = [SortDescriptor(\Trip.createdAt)]
-    @State private var searchText = ""
-
     var body: some View {
         Group {
             if appState.isLoggedIn {
@@ -17,23 +14,18 @@ struct ContentView: View {
                             trip in TripDetailView(trip: trip)
                         }
                         .toolbar {
-                            Menu("Sort", systemImage: "arrow.up.arrow.down") {
-                                Picker("Sort", selection: $sortOrder) {
-                                    Text("Title (A-Z)")
-                                        .tag([SortDescriptor(\Trip.title)])
-
-                                    Text("Title (Z-A)")
-                                        .tag([SortDescriptor(\Trip.title, order: .reverse)])
-                                    
-                                    Text("Created at")
-                                        .tag([SortDescriptor(\Trip.createdAt)])
-                                    
-                                    Text("Created at (Z-A)")
-                                        .tag([SortDescriptor(\Trip.createdAt, order: .reverse)])
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(action: {
+                                    appState.logout()
+                                }) {
+                                    Image(systemName: "power")
+                                        .foregroundColor(.red) // Customize color if needed
                                 }
                             }
-                            NavigationLink(destination: TripFormView(trip: nil)) {
-                                Image(systemName: "plus")
+                            ToolbarItem(placement: .topBarTrailing) {
+                                NavigationLink(destination: TripFormView(trip: nil)) {
+                                    Image(systemName: "plus")
+                                }
                             }
                         }
                 }

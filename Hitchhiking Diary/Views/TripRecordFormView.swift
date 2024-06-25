@@ -64,7 +64,6 @@ struct TripRecordFormView: View {
                         } else {
                             if let location {
                                 let tripRecord = TripRecord(type: type, content: content, location: location)
-                                //modelContext.insert(tripRecord)
                                 trip.records.append(tripRecord)
                                 dismiss()
                             }
