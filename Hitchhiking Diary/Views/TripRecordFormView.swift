@@ -86,7 +86,6 @@ struct TripRecordFormView: View {
                             tripRecord.updatedAt = Date()
                             modelContext.insert(tripRecord)
                             
-                            //FIXME: broken
                             var checksums: [String] = [String]()
                             for i in photos {
                                 let photo = Photo(content: i.jpegData(compressionQuality: 1)!)
@@ -96,9 +95,7 @@ struct TripRecordFormView: View {
                                 }
                             }
                             
-                            for i in tripRecord.photos.filter({checksums.contains($0.checksum)}) {
-                                modelContext.delete(i)
-                            }
+                            tripRecord.photos.removeAll(where: {!checksums.contains($0.checksum)})
                             
                             dismiss()
                         } else {
