@@ -23,7 +23,6 @@
 		FD85A9992C29E8C600D07598 /* TripFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85A9982C29E8C600D07598 /* TripFormView.swift */; };
 		FD85A99B2C2A24E400D07598 /* TripRecordFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */; };
 		FD944AD82C1FA170005F825E /* TripRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */; };
-		FDA31C5E2C2AFC39008EFF47 /* MapAnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA31C5D2C2AFC39008EFF47 /* MapAnnotationItem.swift */; };
 		FDDF2C1D2C1F56F4003C06B0 /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDF2C1C2C1F56F4003C06B0 /* Previewer.swift */; };
 		FDF36B2A2C1F3BBD00F2E49D /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF36B292C1F3BBD00F2E49D /* Photo.swift */; };
 /* End PBXBuildFile section */
@@ -46,7 +45,6 @@
 		FD85A9982C29E8C600D07598 /* TripFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripFormView.swift; sourceTree = "<group>"; };
 		FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordFormView.swift; sourceTree = "<group>"; };
 		FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordDetailView.swift; sourceTree = "<group>"; };
-		FDA31C5D2C2AFC39008EFF47 /* MapAnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationItem.swift; sourceTree = "<group>"; };
 		FDDF2C1C2C1F56F4003C06B0 /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 		FDF36B292C1F3BBD00F2E49D /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,7 +105,6 @@
 				FD66AB952C1B9B310018C2B8 /* Trip.swift */,
 				FD66AB972C1B9B4A0018C2B8 /* TripRecord.swift */,
 				FDF36B292C1F3BBD00F2E49D /* Photo.swift */,
-				FDA31C5D2C2AFC39008EFF47 /* MapAnnotationItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -226,7 +223,6 @@
 				FD66ABB72C1BAEC60018C2B8 /* AppState.swift in Sources */,
 				FD66ABB92C1BAEE60018C2B8 /* ContentView.swift in Sources */,
 				FD59F97B2C1BC4650094FB6F /* PhotoPicker.swift in Sources */,
-				FDA31C5E2C2AFC39008EFF47 /* MapAnnotationItem.swift in Sources */,
 				FD66AB9C2C1B9C770018C2B8 /* TripListView.swift in Sources */,
 				FD66AB9A2C1B9C050018C2B8 /* LoginView.swift in Sources */,
 				FD66ABA02C1B9CD50018C2B8 /* TripDetailView.swift in Sources */,

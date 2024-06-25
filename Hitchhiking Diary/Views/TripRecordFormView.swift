@@ -14,8 +14,10 @@ struct TripRecordFormView: View {
     @State private var type: TripRecordType = .interesting
     @State private var content: String = ""
     @State private var location: CLLocationCoordinate2D?
+    @State private var photos: [UIImage] = []
     
     @State private var showAlert = false
+    @State private var showPhotoPicker = false
     
     var body: some View {
         VStack {
@@ -45,6 +47,29 @@ struct TripRecordFormView: View {
                     
                 }
                 
+                Section(header: Text("Photos")) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(photos, id: \.self) { photo in
+                                Image(uiImage: photo)
+                                    .resizable()
+                                    .frame(width: 100, height: 100)
+                                    .cornerRadius(10)
+                                    .onLongPressGesture {
+                                        if let index = photos.firstIndex(of: photo) {
+                                            photos.remove(at: index)
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                    Button(action: {
+                        showPhotoPicker = true
+                    }) {
+                        Label("Add photos", systemImage: "photo.on.rectangle.angled")
+                    }
+                }
+                
                 Section(header: Text("Description")) {
                     TextEditor(text: $content)
                         .frame(minHeight: 200, maxHeight: .infinity)
@@ -60,11 +85,34 @@ struct TripRecordFormView: View {
                             tripRecord.type = type
                             tripRecord.updatedAt = Date()
                             modelContext.insert(tripRecord)
+                            
+                            //FIXME: broken
+                            var checksums: [String] = [String]()
+                            for i in photos {
+                                let photo = Photo(content: i.jpegData(compressionQuality: 1)!)
+                                checksums.append(photo.checksum)
+                                if tripRecord.photos.filter({$0.checksum == photo.checksum}).isEmpty {
+                                    tripRecord.photos.append(photo)
+                                }
+                            }
+                            
+                            for i in tripRecord.photos.filter({checksums.contains($0.checksum)}) {
+                                modelContext.delete(i)
+                            }
+                            
                             dismiss()
                         } else {
                             if let location {
                                 let tripRecord = TripRecord(type: type, content: content, location: location)
                                 trip.records.append(tripRecord)
+                                
+                                for i in photos {
+                                    let photo = Photo(content: i.jpegData(compressionQuality: 1)!)
+                                    if tripRecord.photos.filter({$0.checksum == photo.checksum}).isEmpty {
+                                        tripRecord.photos.append(photo)
+                                    }
+                                }
+                                
                                 dismiss()
                             }
                             else {
@@ -79,6 +127,7 @@ struct TripRecordFormView: View {
                     type = tripRecord.type
                     content = tripRecord.content ?? ""
                     location = tripRecord.location
+                    photos = tripRecord.photos.compactMap { UIImage(data: $0.content) }
                 } else {
                     location = locationManager.lastLocation?.coordinate
                 }
@@ -87,6 +136,9 @@ struct TripRecordFormView: View {
                 Alert(title: Text("Location Required"),
                       message: Text("Please wait until your location is acquired before saving the trip record."),
                       dismissButton: .default(Text("OK")))
+            }
+            .sheet(isPresented: $showPhotoPicker) {
+                PhotoPicker(photos: $photos)
             }
         }
     }
