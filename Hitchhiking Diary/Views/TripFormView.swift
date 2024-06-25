@@ -1,43 +1,72 @@
 import SwiftUI
+import SwiftData
 
 struct TripFormView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel: TripListViewModel
-    @State private var name: String
-    var trip: Trip?
-
-    init(viewModel: TripListViewModel, trip: Trip? = nil) {
-        self.viewModel = viewModel
-        self.trip = trip
-        _name = State(initialValue: trip?.name ?? "")
-    }
+    @Environment(\.modelContext) private var modelContext: ModelContext
+    
+    @Environment(\.dismiss) private var dismiss
+    @State var trip: Trip?
+    
+    @State private var title: String = ""
+    @State private var content: String = ""
+    @State private var status: TripStatus = .draft
     
     var body: some View {
-        NavigationView {
+        VStack {
             Form {
-                Section(header: Text("Trip Name")) {
-                    TextField("Name", text: $name)
+                Section {
+                    TextField("Title", text: $title)
+                    Picker("Status", selection: $status) {
+                        ForEach(TripStatus.allCases, id: \.self) { type in
+                            HStack {
+                                type.icon()
+                                Text(type.rawValue)
+                            }.tag(type)
+                        }
+                    }
+                }
+                
+                Section(header: Text("Description")) {
+                    TextEditor(text: $content)
+                        .frame(minHeight: 200, maxHeight: .infinity)
                 }
             }
-            .navigationTitle(trip == nil ? "New Trip" : "Edit Trip")
-            .navigationBarItems(leading: Button("Cancel") {
-                presentationMode.wrappedValue.dismiss()
-            }, trailing: Button("Save") {
-                if let trip = trip {
-                    var updatedTrip = trip
-                    updatedTrip.name = name
-                    viewModel.updateTrip(updatedTrip)
-                } else {
-                    viewModel.addTrip(name: name)
+            .navigationTitle(trip?.title ?? "New Trip" )
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        if let trip = trip {
+                            trip.title = title
+                            trip.content = content
+                            trip.status = status
+                            trip.updatedAt = Date()
+                            modelContext.insert(trip)
+                        } else {
+                            let trip = Trip(title: title, content: content, status: status)
+                            modelContext.insert(trip)
+                        }
+                        dismiss()
+                    }) {Text("Save")}
                 }
-                presentationMode.wrappedValue.dismiss()
-            })
+            }
+            .onAppear {
+                if let trip = trip {
+                    title = trip.title
+                    content = trip.content
+                    status = trip.status
+                }
+            }
         }
     }
 }
 
-struct TripFormView_Previews: PreviewProvider {
-    static var previews: some View {
-        TripFormView(viewModel: TripListViewModel())
+#Preview {
+    do {
+        let previewer = try Previewer()
+
+        return TripFormView(trip: previewer.trip)
+            .modelContainer(previewer.container)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }

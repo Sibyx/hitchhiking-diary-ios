@@ -1,12 +1,15 @@
 import Foundation
 import CoreLocation
 import SwiftUI
+import SwiftData
 
 enum TripRecordType: String, Codable, CaseIterable {
     case interesting = "Interesting"
+    case workout = "Workout"
     case camping = "Camping"
     case pickup = "Pickup"
     case dropoff = "Dropoff"
+    case story = "Story"
     
     func icon() -> Image {
         switch self {
@@ -14,35 +17,40 @@ enum TripRecordType: String, Codable, CaseIterable {
             return Image(systemName: "star.fill")
         case .camping:
             return Image(systemName: "tent.fill")
+        case .workout:
+            return Image(systemName: "figure.hiking")
         case .pickup:
-            return Image(systemName: "car.fill")
+            return Image(systemName: "figure.wave")
         case .dropoff:
-            return Image(systemName: "car.2.fill")
+            return Image(systemName: "car.top.door.front.right.open")
+        case .story:
+            return Image(systemName: "pencil")
         }
     }
 }
 
-struct TripRecord: Identifiable, Codable {
-    var id: UUID
-    var tripId: UUID
+@Model
+class TripRecord {
+    @Attribute(.unique) var id: UUID
     var type: TripRecordType
-    var description: String
+    var trip: Trip?
+    var content: String?
     var location: CLLocationCoordinate2D
-    var photos: [String]
+    @Relationship(deleteRule: .cascade, inverse: \Photo.record) var photos: [Photo]
     var createdAt: Date
     var updatedAt: Date
 
-    init(tripId: UUID, type: TripRecordType, description: String, location: CLLocationCoordinate2D, photos: [String] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
-        self.id = UUID()
-        self.tripId = tripId
+    init(id: UUID = UUID(), type: TripRecordType, content: String, location: CLLocationCoordinate2D, photos: [Photo] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
+        self.id = id
         self.type = type
-        self.description = description
+        self.content = content
         self.location = location
         self.photos = photos
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
 }
+
 
 // Extension to conform to Codable for CLLocationCoordinate2D
 extension CLLocationCoordinate2D: Codable {

@@ -1,31 +1,27 @@
 import SwiftUI
 import CoreLocation
+import SwiftData
+import MapKit
 
 struct TripRecordFormView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State private var selectedType: TripRecordType
-    @State private var description: String
+    @Environment(\.modelContext) private var modelContext: ModelContext
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject private var locationManager = LocationManager()
-    var trip: Trip
-    var viewModel: TripDetailViewModel
-    var isEditing: Bool
-    var recordToEdit: TripRecord?
-
-    init(trip: Trip, viewModel: TripDetailViewModel, isEditing: Bool = false, recordToEdit: TripRecord? = nil) {
-        self.trip = trip
-        self.viewModel = viewModel
-        self.isEditing = isEditing
-        self.recordToEdit = recordToEdit
-        
-        _selectedType = State(initialValue: recordToEdit?.type ?? .interesting)
-        _description = State(initialValue: recordToEdit?.description ?? "")
-    }
-
+    
+    @State var tripRecord: TripRecord?
+    let trip: Trip
+    
+    @State private var type: TripRecordType = .interesting
+    @State private var content: String = ""
+    @State private var location: CLLocationCoordinate2D?
+    
+    @State private var showAlert = false
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                Form {
-                    Picker("Type", selection: $selectedType) {
+        VStack {
+            Form {
+                Section {
+                    Picker("Type", selection: $type) {
                         ForEach(TripRecordType.allCases, id: \.self) { type in
                             HStack {
                                 type.icon()
@@ -34,63 +30,77 @@ struct TripRecordFormView: View {
                         }
                     }
                     
-                    Section(header: Text("Description")) {
-                        TextEditor(text: $description)
-                            .frame(minHeight: 200, maxHeight: .infinity)
-                            .padding(4)
+                    if let location = location {
+                        Map() {
+                            Marker("I am here!", coordinate: location)
+                        }
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                        .padding()
+                    } else {
+                        Text("Acquiring location...")
+                            .foregroundColor(.gray)
+                            .padding()
                     }
                     
-                    if let location = locationManager.lastLocation {
-                        Text("Current Location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-                    } else {
-                        Text("Fetching current location...")
-                    }
                 }
-
-                Button(action: saveRecord) {
-                    Text(isEditing ? "Update" : "Save")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(15.0)
-                        .padding()
+                
+                Section(header: Text("Description")) {
+                    TextEditor(text: $content)
+                        .frame(minHeight: 200, maxHeight: .infinity)
+                }
+                
+            }
+            .navigationTitle(tripRecord == nil ? "New Trip Record" : "Edit Trip Record")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        if let tripRecord = tripRecord {
+                            tripRecord.content = content
+                            tripRecord.type = type
+                            tripRecord.updatedAt = Date()
+                            modelContext.insert(tripRecord)
+                            dismiss()
+                        } else {
+                            if let location {
+                                let tripRecord = TripRecord(type: type, content: content, location: location)
+                                //modelContext.insert(tripRecord)
+                                trip.records.append(tripRecord)
+                                dismiss()
+                            }
+                            else {
+                                showAlert = true
+                            }
+                        }
+                    }) {Text("Save")}
                 }
             }
-            .navigationTitle(isEditing ? "Edit Trip Record" : "New Trip Record")
-            .navigationBarItems(trailing: Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Cancel")
-            })
-        }
-    }
-
-    private func saveRecord() {
-        if let location = locationManager.lastLocation {
-            let locationCoordinate = location.coordinate
-            let record = TripRecord(
-                tripId: trip.id,
-                type: selectedType,
-                description: description,
-                location: locationCoordinate,
-                photos: [],
-                createdAt: recordToEdit?.createdAt ?? Date(),
-                updatedAt: Date()
-            )
-            if isEditing {
-                viewModel.updateTripRecord(tripRecord: record)
-            } else {
-                viewModel.addTripRecord(tripRecord: record)
+            .onAppear {
+                if let tripRecord = tripRecord {
+                    type = tripRecord.type
+                    content = tripRecord.content ?? ""
+                    location = tripRecord.location
+                } else {
+                    location = locationManager.lastLocation?.coordinate
+                }
             }
-            presentationMode.wrappedValue.dismiss()
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Location Required"),
+                      message: Text("Please wait until your location is acquired before saving the trip record."),
+                      dismissButton: .default(Text("OK")))
+            }
         }
     }
 }
 
-struct TripRecordFormView_Previews: PreviewProvider {
-    static var previews: some View {
-        TripRecordFormView(trip: Trip(name: "Sample Trip"), viewModel: TripDetailViewModel())
+
+#Preview {
+    do {
+        let previewer = try Previewer()
+
+        return TripRecordFormView(trip: previewer.trip)
+            .modelContainer(previewer.container)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }

@@ -1,72 +1,94 @@
 import SwiftUI
+import SwiftData
 import MapKit
 
 struct TripDetailView: View {
-    var trip: Trip
-    @StateObject private var viewModel = TripDetailViewModel()
-
+    @Environment(\.modelContext) private var modelContext: ModelContext
+    @Bindable var trip: Trip
+    
+    var groupedRecords: [(key: Date, value: [TripRecord])] {
+        let sortedRecords = trip.records.sorted { $0.createdAt > $1.createdAt }
+        let grouped = Dictionary(grouping: sortedRecords) { (record: TripRecord) -> Date in
+            let components = Calendar.current.dateComponents([.year, .month, .day], from: record.createdAt)
+            return Calendar.current.date(from: components)!
+        }
+        return grouped.sorted { $0.key > $1.key }
+    }
+    
     var body: some View {
         VStack {
-            MultiCoordinateMapView(tripRecords: viewModel.tripRecords)
-                .frame(height: 300)
-                .cornerRadius(10)
+            HStack {
+                trip.status.icon()
+                    .font(.largeTitle)
+                Text(trip.status.rawValue.capitalized)
+                    .font(.title)
+            }
+            .padding(.horizontal)
+            
+            Text(trip.content)
                 .padding()
-
+            
+            Map() {
+                ForEach(trip.records, id:\.self) {
+                    record in
+                    Annotation(record.type.rawValue, coordinate: record.location) {
+                        record.type.icon()
+                    }
+                }
+            }
+            .frame(height: 200)
+            .cornerRadius(10)
+            .padding()
+            
             List {
-                ForEach(groupedRecords.keys.sorted(by: >), id: \.self) { date in
-                    Section(header: Text(dateFormatter.string(from: date))) {
-                        ForEach(groupedRecords[date] ?? []) { record in
-                            NavigationLink(destination: TripRecordDetailView(tripRecord: record)) {
+                ForEach(groupedRecords, id: \.key) { (date, records) in
+                    Section(header: Text(date, style: .date)) {
+                        ForEach(records) { tripRecord in
+                            NavigationLink(destination: TripRecordDetailView(tripRecord: tripRecord)) {
                                 HStack {
-                                    record.type.icon()
-                                    VStack(alignment: .leading) {
-                                        Text(record.type.rawValue)
-                                            .font(.headline)
-                                        Text("Created at: \(record.createdAt, formatter: dateFormatter)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    }
+                                    tripRecord.type.icon()
+                                    Text(tripRecord.type.rawValue)
+                                }
+                            }
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    deleteTripRecord(tripRecord)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
                                 }
                             }
                         }
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())
-            .navigationTitle(trip.name)
-            .navigationBarItems(trailing: Button(action: {
-                viewModel.showingNewTripRecordView = true
-            }) {
-                Image(systemName: "plus")
-            })
-            .sheet(isPresented: $viewModel.showingNewTripRecordView) {
-                TripRecordFormView(trip: trip, viewModel: viewModel)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: TripFormView(trip: trip)) {
+                    Image(systemName: "pencil")
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: TripRecordFormView(tripRecord: nil, trip: trip)) {
+                    Image(systemName: "plus")
+                }
             }
         }
-        .onAppear {
-            viewModel.fetchTripRecords(for: trip)
-        }
+        .navigationTitle(trip.title)
     }
 
-    private var groupedRecords: [Date: [TripRecord]] {
-        Dictionary(grouping: viewModel.tripRecords, by: { Calendar.current.startOfDay(for: $0.createdAt) })
+    private func deleteTripRecord(_ tripRecord: TripRecord) {
+        modelContext.delete(tripRecord)
     }
 }
 
-struct TripDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        let persistence = Persistence()
-        persistence.preloadData()
-        
-        let sampleTrip = persistence.trips.first!
-        let tripRecords = persistence.tripRecords[sampleTrip.id] ?? []
+#Preview {
+    do {
+        let previewer = try Previewer()
 
-        let viewModel = TripDetailViewModel()
-        viewModel.tripRecords = tripRecords
-        
-        return NavigationView {
-            TripDetailView(trip: sampleTrip)
-                .environmentObject(viewModel)
-        }
+        return TripDetailView(trip: previewer.trip)
+            .modelContainer(previewer.container)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }
