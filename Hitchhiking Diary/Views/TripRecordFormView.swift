@@ -50,16 +50,20 @@ struct TripRecordFormView: View {
                 Section(header: Text("Photos")) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(photos, id: \.self) { photo in
-                                Image(uiImage: photo)
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .cornerRadius(10)
-                                    .onLongPressGesture {
-                                        if let index = photos.firstIndex(of: photo) {
-                                            photos.remove(at: index)
-                                        }
+                            ForEach(photos.indices, id: \.self) { index in
+                                VStack {
+                                    Image(uiImage: photos[index])
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .cornerRadius(10)
+                                    Button(action: {
+                                        photos.remove(at: index)
+                                    }) {
+                                        Image(systemName: "minus.circle.fill")
+                                            .foregroundColor(.red)
                                     }
+                                    .padding(.top, 5)
+                                }
                             }
                         }
                     }
@@ -74,7 +78,6 @@ struct TripRecordFormView: View {
                     TextEditor(text: $content)
                         .frame(minHeight: 200, maxHeight: .infinity)
                 }
-                
             }
             .navigationTitle(tripRecord == nil ? "New Trip Record" : "Edit Trip Record")
             .toolbar {
