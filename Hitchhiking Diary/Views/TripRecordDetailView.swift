@@ -4,6 +4,10 @@ import MapKit
 struct TripRecordDetailView: View {
     @Bindable var tripRecord: TripRecord
 
+    @State private var selectedPhoto: UIImage?
+    @State private var isPhotoPresented = false
+    @State private var isLoading = false
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -28,11 +32,20 @@ struct TripRecordDetailView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(tripRecord.photos, id: \.id) { photo in
-                                Image(uiImage: UIImage(data: photo.content) ?? UIImage())
+                                let img = UIImage(data: photo.content)
+                                Image(uiImage: img!)
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 100, height: 100)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .onTapGesture {
+                                        isLoading = true
+                                        selectedPhoto = img
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            isPhotoPresented = true
+                                            isLoading = false
+                                        }
+                                    }
                             }
                         }
                     }
@@ -50,6 +63,48 @@ struct TripRecordDetailView: View {
         }
         .navigationTitle(tripRecord.type.rawValue)
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $isPhotoPresented) {
+            if let selectedPhoto = selectedPhoto {
+                PhotoViewer(selectedPhoto: selectedPhoto)
+            }
+        }
+        .overlay(
+            Group {
+                if isLoading {
+                    LoaderView()
+                }
+            }
+        )
+    }
+}
+
+
+private struct PhotoViewer: View {
+    var selectedPhoto: UIImage
+    
+    var body: some View {
+        Image(uiImage: selectedPhoto)
+            .resizable()
+            .scaledToFit()
+            .ignoresSafeArea()
+    }
+}
+
+private struct LoaderView: View {
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 20) {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .scaleEffect(1.5)
+            }
+            .padding(20)
+            .background(Color.black.opacity(0.8))
+            .cornerRadius(10)
+        }
     }
 }
 
