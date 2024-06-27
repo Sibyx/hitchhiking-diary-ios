@@ -28,10 +28,10 @@ struct TripRecordDetailView: View {
                         .padding(.bottom, 10)
                 }
                 
-                if !tripRecord.photos.isEmpty {
+                if !tripRecord.photos.filter({$0.deletedAt == nil}).isEmpty {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(tripRecord.photos, id: \.id) { photo in
+                            ForEach(tripRecord.photos.filter({$0.deletedAt == nil}), id: \.id) { photo in
                                 let img = UIImage(data: photo.content)
                                 Image(uiImage: img!)
                                     .resizable()

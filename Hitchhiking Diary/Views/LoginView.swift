@@ -2,13 +2,12 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @State private var username: String = "arthur.dent"
+    @State private var password: String = "Secret42"
+    @State private var errorMessage: String? = nil
 
     var body: some View {
         VStack {
-            Spacer()
-            
             // App Icon
             Image("Logo")
                 .resizable()
@@ -19,6 +18,14 @@ struct LoginView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.bottom, 20)
+            
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+                    .padding()
+                    .background(Color.red.opacity(0.1))
+                    .cornerRadius(5)
+            }
 
             // Username TextField
             TextField("Username", text: $username)
@@ -35,7 +42,7 @@ struct LoginView: View {
                 .padding(.bottom, 20)
 
             Button(action: {
-                appState.login()
+                login()
             }) {
                 Text("Log In")
                     .font(.headline)
@@ -48,6 +55,22 @@ struct LoginView: View {
             }
         }
         .padding()
+    }
+    
+    private func login() {
+        let apiClient = APIClient()
+        
+        apiClient.createToken(username: username, password: password) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let tokenDetail):
+                    appState.token = tokenDetail.accessToken
+                    errorMessage = nil
+                case .failure(let error):
+                    errorMessage = "Login failed: \(error.localizedDescription)"
+                }
+            }
+        }
     }
 }
 

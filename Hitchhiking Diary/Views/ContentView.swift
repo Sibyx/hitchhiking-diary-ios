@@ -6,7 +6,10 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if appState.isLoggedIn {
+            if appState.token == nil {
+                LoginView()
+            }
+            else {
                 NavigationStack() {
                     TripListView()
                         .navigationTitle("Hitchhiking Diary")
@@ -29,8 +32,6 @@ struct ContentView: View {
                             }
                         }
                 }
-            } else {
-                LoginView()
             }
         }
     }

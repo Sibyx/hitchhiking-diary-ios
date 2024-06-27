@@ -7,7 +7,7 @@ struct TripDetailView: View {
     @Bindable var trip: Trip
     
     var groupedRecords: [(key: Date, value: [TripRecord])] {
-        let sortedRecords = trip.records.sorted { $0.createdAt > $1.createdAt }
+        let sortedRecords = trip.records.filter{item in item.deletedAt == nil}.sorted { $0.createdAt > $1.createdAt }
         let grouped = Dictionary(grouping: sortedRecords) { (record: TripRecord) -> Date in
             let components = Calendar.current.dateComponents([.year, .month, .day], from: record.createdAt)
             return Calendar.current.date(from: components)!
@@ -80,7 +80,9 @@ struct TripDetailView: View {
     }
 
     private func deleteTripRecord(_ tripRecord: TripRecord) {
-        modelContext.delete(tripRecord)
+        tripRecord.updatedAt = Date()
+        tripRecord.deletedAt = Date()
+        modelContext.insert(tripRecord)
     }
 }
 

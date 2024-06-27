@@ -36,15 +36,18 @@ class TripRecord {
     var trip: Trip?
     var content: String?
     var location: CLLocationCoordinate2D
+    var happenedAt: Date
     @Relationship(deleteRule: .cascade, inverse: \Photo.record) var photos: [Photo]
     var createdAt: Date
     var updatedAt: Date
+    var deletedAt: Date? = nil
 
-    init(id: UUID = UUID(), type: TripRecordType, content: String, location: CLLocationCoordinate2D, photos: [Photo] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
+    init(id: UUID = UUID(), type: TripRecordType, content: String, location: CLLocationCoordinate2D, happenedAt: Date = Date(), photos: [Photo] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
         self.id = id
         self.type = type
         self.content = content
         self.location = location
+        self.happenedAt = happenedAt
         self.photos = photos
         self.createdAt = createdAt
         self.updatedAt = updatedAt

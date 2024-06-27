@@ -1,20 +1,25 @@
 import SwiftUI
 
 class AppState: ObservableObject {
-    @Published var isLoggedIn: Bool = false
-
-    init() {
-        // Check if the user is logged in (for now, it's always false)
-        self.isLoggedIn = false
+    @Published var token: String? {
+        didSet {
+            UserDefaults.standard.set(token, forKey: "token")
+        }
     }
-
-    func login() {
-        // Set login status (this is where you would handle authentication)
-        self.isLoggedIn = true
+    
+    @Published var lastSyncAt: Date? {
+        didSet {
+            UserDefaults.standard.set(lastSyncAt, forKey: "lastSyncAt")
+        }
+    }
+    
+    init() {
+        self.token = UserDefaults.standard.string(forKey: "token")
+        self.lastSyncAt = UserDefaults.standard.object(forKey: "lastSyncAt") as? Date
     }
 
     func logout() {
-        // Set logout status
-        self.isLoggedIn = false
+        self.token = nil
+        self.lastSyncAt = nil
     }
 }

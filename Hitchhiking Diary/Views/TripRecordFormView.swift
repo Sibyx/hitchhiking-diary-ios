@@ -98,6 +98,11 @@ struct TripRecordFormView: View {
                                 }
                             }
                             
+                            for i in tripRecord.photos.filter({!checksums.contains($0.checksum)}) {
+                                i.updatedAt = Date()
+                                i.deletedAt = Date()
+                            }
+                            
                             tripRecord.photos.removeAll(where: {!checksums.contains($0.checksum)})
                             
                             dismiss()
@@ -127,7 +132,7 @@ struct TripRecordFormView: View {
                     type = tripRecord.type
                     content = tripRecord.content ?? ""
                     location = tripRecord.location
-                    photos = tripRecord.photos.compactMap { UIImage(data: $0.content) }
+                    photos = tripRecord.photos.filter({$0.deletedAt == nil}).compactMap { UIImage(data: $0.content) }
                 } else {
                     location = locationManager.lastLocation?.coordinate
                 }

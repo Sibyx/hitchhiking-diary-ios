@@ -28,6 +28,7 @@ class Trip {
     var status: TripStatus
     var createdAt: Date
     var updatedAt: Date
+    var deletedAt: Date? = nil
     @Relationship(deleteRule: .cascade, inverse: \TripRecord.trip) var records: [TripRecord]
 
     init(id: UUID = UUID(), title: String, content: String = "", status: TripStatus = .draft, records: [TripRecord] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
