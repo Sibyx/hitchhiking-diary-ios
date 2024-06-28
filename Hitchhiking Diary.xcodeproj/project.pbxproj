@@ -32,6 +32,8 @@
 /* Begin PBXFileReference section */
 		FD54BFCA2C2E18650059932A /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		FD54BFCC2C2E196A0059932A /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		FD54BFCE2C2E36950059932A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FD54BFD02C2E37E60059932A /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpg; sourceTree = "<group>"; };
 		FD59F97A2C1BC4650094FB6F /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		FD66AB7D2C1B8F6D0018C2B8 /* Hitchhiking Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hitchhiking Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitchhikingDiaryApp.swift; sourceTree = "<group>"; };
@@ -64,9 +66,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD54BFCF2C2E37C70059932A /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				FD54BFD02C2E37E60059932A /* logo.jpg */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
 		FD66AB742C1B8F6C0018C2B8 = {
 			isa = PBXGroup;
 			children = (
+				FD54BFCF2C2E37C70059932A /* docs */,
+				FD54BFCE2C2E36950059932A /* README.md */,
 				FD66AB7F2C1B8F6D0018C2B8 /* Hitchhiking Diary */,
 				FD66AB7E2C1B8F6D0018C2B8 /* Products */,
 			);
