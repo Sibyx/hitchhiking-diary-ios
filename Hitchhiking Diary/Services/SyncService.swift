@@ -14,11 +14,17 @@ class SyncService {
     }
     
     func sync(completion: @escaping (Result<Void, Error>) -> Void) {
+        NSLog("Sync: Started")
+        
         let trips = storageService.fetchTrips(lastSyncAt: self.lastSyncAt)
         let records = storageService.fetchTripRecords(lastSyncAt: self.lastSyncAt)
         let photos = storageService.fetchPhotos(lastSyncAt: self.lastSyncAt)
         
+        NSLog("Sync: Local cache loaded")
+        
         let syncRequest = SyncRequestSchema(trips: trips, records: records, photos: photos, lastSyncAt: lastSyncAt)
+        
+        NSLog("Sync: SyncRequestSchema created")
         
         apiClient.sync(syncRequest: syncRequest) { result in
             switch result {
@@ -26,14 +32,15 @@ class SyncService {
                 self.updateLocalDatabase(with: syncResponse) { updateResult in
                     switch updateResult {
                     case .success:
-                        print("sync success")
+                        NSLog("Sync: Success")
                         completion(.success(()))
                     case .failure(let error):
-                        print("sync fail")
+                        NSLog("Sync: Failed updating local database and photos")
                         completion(.failure(error))
                     }
                 }
             case .failure(let error):
+                NSLog("Sync: Failed while performing sync request")
                 completion(.failure(error))
             }
         }
@@ -58,8 +65,11 @@ class SyncService {
     
     private func updateLocalDatabase(with syncResponse: SyncResponseSchema, completion: @escaping (Result<Void, Error>) -> Void) {
         var errors: [Error] = []
+        let semaphore = DispatchSemaphore(value: 1)
         
         for item in syncResponse.trips {
+            semaphore.wait()
+            NSLog("Sync: Processing Trip \(item.id)")
             let trip = storageService.getTrip(id: item.id) ?? Trip(
                 id: item.id,
                 title: item.title,
@@ -76,9 +86,12 @@ class SyncService {
             trip.deletedAt = item.deletedAt
             
             self.storageService.insert(model: trip)
+            semaphore.signal()
         }
         
         for item in syncResponse.records {
+            semaphore.wait()
+            NSLog("Sync: Processing TripRecord \(item.id)")
             guard let trip = storageService.getTrip(id: item.tripId) else {
                 errors.append(NSError(domain: "SyncService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Trip not found"]))
                 continue
@@ -107,44 +120,50 @@ class SyncService {
             } else {
                 self.storageService.insert(model: record)
             }
+            semaphore.signal()
         }
         
-        if errors.isEmpty {
-            completion(.success(()))
-        } else {
-            completion(.failure(errors.first!))
+        for item in syncResponse.photos {
+            semaphore.wait()
+            NSLog("Sync: Processing Photo \(item.id)")
+            let record = self.storageService.getTripRecord(id: item.recordId)!
+            
+            if let photo = self.storageService.getPhoto(id: item.id) {
+                photo.updatedAt = item.updatedAt
+                photo.deletedAt = item.deletedAt
+                
+                if item.mime == nil {
+                    NSLog("Sync: Performing upload")
+                    self.uploadPhoto(photo: photo) { result in
+                        if case .failure(let error) = result {
+                            errors.append(error)
+                            NSLog("Sync: Upload failed")
+                        }
+                        semaphore.signal()
+                    }
+                } else {
+                    self.storageService.insert(model: photo)
+                    semaphore.signal()
+                }
+            } else {
+                NSLog("Sync: Performing download")
+                self.downloadPhoto(photoId: item.id) { result in
+                    switch result {
+                    case .success(let data):
+                        let photo = Photo(
+                            id: item.id, content: data
+                        )
+                        record.photos.append(photo)
+                        self.storageService.insert(model: record)
+                    case .failure(let error):
+                        NSLog("Sync: Download failed")
+                        errors.append(error)
+                    }
+                    semaphore.signal()
+                }
+            }
         }
         
-//        for item in syncResponse.photos {
-//            let record = self.getTripRecord(id: item.recordId)
-//            
-//            if let photo = self.getPhoto(id: item.id) {
-//                
-//                photo.deletedAt = item.deletedAt
-//                
-//                if item.mime == nil {
-//                    self.uploadPhoto(photo: photo) { result in
-//                        if case .failure(let error) = result {
-//                            print("Upload error")
-//                            errors.append(error)
-//                        }
-//                    }
-//                } else {
-//                    self.modelContext.insert(photo)
-//                }
-//            } else {
-//                self.downloadPhoto(photoId: item.id) { result in
-//                    switch result {
-//                    case .success(let data):
-//                        let photo = Photo(
-//                            id: item.id, content: data
-//                        )
-//                        record?.photos.append(photo)
-//                    case .failure(let error):
-//                        errors.append(error)
-//                    }
-//                }
-//            }
-//        }
+        completion(errors.isEmpty ? .success(()) : .failure(NSError(domain: "SyncService", code: 500, userInfo: [NSLocalizedDescriptionKey: "One or more errors occurred during sync"])))
     }
 }
