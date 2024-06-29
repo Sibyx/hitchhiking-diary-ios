@@ -3,11 +3,9 @@ import SwiftData
 
 struct TripListView: View {
     @EnvironmentObject var appState: AppState
-    @Environment(\.modelContext) var modelContext
+    @Environment(\.database) private var database
     
-    @Query(filter: #Predicate<Trip> { trip in
-        trip.deletedAt == nil
-    }, sort: \Trip.createdAt, order: .reverse) var trips: [Trip]
+    @State var trips: [Trip] = []
 
     var body: some View {
         List {
@@ -16,27 +14,36 @@ struct TripListView: View {
                     Text(trip.title)
                 }
             }
-            .onDelete(perform: deleteTrip)
+            .onDelete{offsets in
+                Task {
+                    for offset in offsets {
+                        let trip = trips[offset]
+                        trip.updatedAt = Date()
+                        trip.deletedAt = Date()
+                        await database.insert(trip)
+                    }
+                }
+            }
         }
-    }
-    
-    func deleteTrip(at offsets: IndexSet) {
-        for offset in offsets {
-            let trip = trips[offset]
-            trip.updatedAt = Date()
-            trip.deletedAt = Date()
-            modelContext.insert(trip)
+        .task {
+            if (trips.isEmpty) {
+                do {
+                    trips = try await database.fetch(#Predicate<Trip> { trip in
+                        trip.deletedAt == nil
+                    })
+                } catch {
+                    print("Failed to fetch trips: \(error.localizedDescription)")
+                }
+            }
         }
-    }
-}
-#Preview {
-    do {
-        let previewer = try Previewer()
-
-        return TripListView()
-            .modelContainer(previewer.container)
-            .environmentObject(AppState())
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
+        .refreshable {
+            do {
+                trips = try await database.fetch(#Predicate<Trip> { trip in
+                    trip.deletedAt == nil
+                })
+            } catch {
+                print("Failed to fetch trips: \(error.localizedDescription)")
+            }
+        }
     }
 }

@@ -28,7 +28,6 @@
 		FD85A9992C29E8C600D07598 /* TripFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85A9982C29E8C600D07598 /* TripFormView.swift */; };
 		FD85A99B2C2A24E400D07598 /* TripRecordFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */; };
 		FD944AD82C1FA170005F825E /* TripRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */; };
-		FDDF2C1D2C1F56F4003C06B0 /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDF2C1C2C1F56F4003C06B0 /* Previewer.swift */; };
 		FDF36B2A2C1F3BBD00F2E49D /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF36B292C1F3BBD00F2E49D /* Photo.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,7 +56,6 @@
 		FD85A9982C29E8C600D07598 /* TripFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripFormView.swift; sourceTree = "<group>"; };
 		FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordFormView.swift; sourceTree = "<group>"; };
 		FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordDetailView.swift; sourceTree = "<group>"; };
-		FDDF2C1C2C1F56F4003C06B0 /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 		FDF36B292C1F3BBD00F2E49D /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,7 +161,6 @@
 				FD66ABA52C1B9E080018C2B8 /* LocationManager.swift */,
 				FD66ABAB2C1B9FC40018C2B8 /* DateFormatter.swift */,
 				FD59F97A2C1BC4650094FB6F /* PhotoPicker.swift */,
-				FDDF2C1C2C1F56F4003C06B0 /* Previewer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -257,7 +254,6 @@
 				FD66AB9A2C1B9C050018C2B8 /* LoginView.swift in Sources */,
 				FD66ABA02C1B9CD50018C2B8 /* TripDetailView.swift in Sources */,
 				FD66AB982C1B9B4A0018C2B8 /* TripRecord.swift in Sources */,
-				FDDF2C1D2C1F56F4003C06B0 /* Previewer.swift in Sources */,
 				FD66AB962C1B9B310018C2B8 /* Trip.swift in Sources */,
 				FD85A9992C29E8C600D07598 /* TripFormView.swift in Sources */,
 				FD66ABAC2C1B9FC40018C2B8 /* DateFormatter.swift in Sources */,

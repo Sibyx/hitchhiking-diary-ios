@@ -9,7 +9,7 @@ struct HitchhikingDiaryApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(appState)
-                .modelContainer(appState.modelContainer)
+                .database(SharedDatabase.shared.database)
         }
     }
 }

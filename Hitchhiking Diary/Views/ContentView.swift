@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
-    @Environment(\.modelContext) var modelContext
+    @Environment(\.database) var database
     
     @State private var showingErrorAlert = false
     @State private var errorMessage = ""
@@ -66,7 +66,7 @@ struct ContentView: View {
         self.isSyncing = true
         
         let apiClient = APIClient(token: appState.token)
-        let syncService = SyncService(apiClient: apiClient, container: self.appState.modelContainer)
+        let syncService = SyncService(apiClient: apiClient)
         
         await syncService.sync { result in
             DispatchQueue.main.async {
@@ -81,11 +81,5 @@ struct ContentView: View {
                 }
             }
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environmentObject(AppState())
     }
 }

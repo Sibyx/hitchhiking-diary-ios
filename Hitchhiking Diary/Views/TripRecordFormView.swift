@@ -4,7 +4,7 @@ import SwiftData
 import MapKit
 
 struct TripRecordFormView: View {
-    @Environment(\.modelContext) private var modelContext: ModelContext
+    @Environment(\.database) private var database
     @Environment(\.dismiss) private var dismiss
     @ObservedObject private var locationManager = LocationManager()
     
@@ -87,33 +87,14 @@ struct TripRecordFormView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        if let tripRecord = tripRecord {
-                            tripRecord.content = content
-                            tripRecord.type = type
-                            tripRecord.updatedAt = Date()
-                            modelContext.insert(tripRecord)
-                            
-                            // Update photos
-                            for uiImage in photos {
-                                if photoMapping[uiImage] == nil {
-                                    let newPhoto = Photo(content: uiImage.jpegData(compressionQuality: 1)!)
-                                    tripRecord.photos.append(newPhoto)
-                                    photoMapping[uiImage] = newPhoto
-                                }
-                            }
-                            
-                            for photo in tripRecord.photos.filter({ !photoMapping.values.contains($0) }) {
-                                photo.updatedAt = Date()
-                                photo.deletedAt = Date()
-                                modelContext.insert(photo)
-                            }
-
-                            dismiss()
-                        } else {
-                            if let location {
-                                let tripRecord = TripRecord(type: type, content: content, location: location)
-                                trip.records.append(tripRecord)
+                        Task {
+                            if let tripRecord = tripRecord {
+                                tripRecord.content = content
+                                tripRecord.type = type
+                                tripRecord.updatedAt = Date()
+                                await database.insert(tripRecord)
                                 
+                                // Update photos
                                 for uiImage in photos {
                                     if photoMapping[uiImage] == nil {
                                         let newPhoto = Photo(content: uiImage.jpegData(compressionQuality: 1)!)
@@ -122,9 +103,30 @@ struct TripRecordFormView: View {
                                     }
                                 }
                                 
+                                for photo in tripRecord.photos.filter({ !photoMapping.values.contains($0) }) {
+                                    photo.updatedAt = Date()
+                                    photo.deletedAt = Date()
+                                    await database.insert(photo)
+                                }
+
                                 dismiss()
                             } else {
-                                showAlert = true
+                                if let location {
+                                    let tripRecord = TripRecord(type: type, content: content, location: location)
+                                    trip.records.append(tripRecord)
+                                    
+                                    for uiImage in photos {
+                                        if photoMapping[uiImage] == nil {
+                                            let newPhoto = Photo(content: uiImage.jpegData(compressionQuality: 1)!)
+                                            tripRecord.photos.append(newPhoto)
+                                            photoMapping[uiImage] = newPhoto
+                                        }
+                                    }
+                                    
+                                    dismiss()
+                                } else {
+                                    showAlert = true
+                                }
                             }
                         }
                     }) { Text("Save") }
@@ -155,17 +157,5 @@ struct TripRecordFormView: View {
                 PhotoPicker(photos: $photos)
             }
         }
-    }
-}
-
-
-#Preview {
-    do {
-        let previewer = try Previewer()
-
-        return TripRecordFormView(trip: previewer.trip)
-            .modelContainer(previewer.container)
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }

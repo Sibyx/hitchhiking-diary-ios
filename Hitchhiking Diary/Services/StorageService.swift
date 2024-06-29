@@ -6,10 +6,9 @@ import Foundation
  I love the guy who wrote the blogpost bellow. Resolved so many issues.
  https://jacobbartlett.substack.com/p/swiftdata-outside-swiftui
  */
-@ModelActor
-final actor StorageService: ModelActor {
-    func fetchTrips(lastSyncAt: Date?) -> [TripSyncSchema] {
-//        let context = ModelContext(self.modelContainer)
+
+final actor StorageService {
+    func fetchTrips(lastSyncAt: Date?) async -> [TripSyncSchema] {
         var descriptor = FetchDescriptor<Trip>()
     
         if let lastSyncAt = lastSyncAt {
@@ -18,15 +17,14 @@ final actor StorageService: ModelActor {
             }
         }
         
-        guard let trips = try? modelContext.fetch(descriptor) else {
+        guard let trips = try? await SharedDatabase.shared.database.fetch(descriptor) else {
             return []
         }
         
         return trips.map { TripSyncSchema(from: $0) }
     }
     
-    func fetchTripRecords(lastSyncAt: Date?) -> [TripRecordSyncSchema] {
-//        let context = ModelContext(self.modelContainer)
+    func fetchTripRecords(lastSyncAt: Date?) async -> [TripRecordSyncSchema] {
         var descriptor = FetchDescriptor<TripRecord>()
     
         if let lastSyncAt = lastSyncAt {
@@ -35,15 +33,14 @@ final actor StorageService: ModelActor {
             }
         }
         
-        guard let records = try? modelContext.fetch(descriptor) else {
+        guard let records = try? await SharedDatabase.shared.database.fetch(descriptor) else {
             return []
         }
         
         return records.map { TripRecordSyncSchema(from: $0) }
     }
     
-    func fetchPhotos(lastSyncAt: Date?) -> [PhotoSyncSchema] {
-//        let context = ModelContext(self.modelContainer)
+    func fetchPhotos(lastSyncAt: Date?) async -> [PhotoSyncSchema] {
         var descriptor = FetchDescriptor<Photo>()
     
         if let lastSyncAt = lastSyncAt {
@@ -52,15 +49,14 @@ final actor StorageService: ModelActor {
             }
         }
         
-        guard let photos = try? modelContext.fetch(descriptor) else {
+        guard let photos = try? await SharedDatabase.shared.database.fetch(descriptor) else {
             return []
         }
         
         return photos.map { PhotoSyncSchema(from: $0) }
     }
     
-    func getTrip(id: UUID) -> Trip? {
-//        let context = ModelContext(self.modelContainer)
+    func getTrip(id: UUID) async -> Trip? {
         let predicate = #Predicate<Trip> { object in
             object.id == id
         }
@@ -69,15 +65,14 @@ final actor StorageService: ModelActor {
         descriptor.fetchLimit = 1
         
         do {
-            let object = try modelContext.fetch(descriptor)
+            let object = try await SharedDatabase.shared.database.fetch(descriptor)
             return object.first
         } catch {
             return nil
         }
     }
     
-    func getTripRecord(id: UUID) -> TripRecord? {
-//        let context = ModelContext(self.modelContainer)
+    func getTripRecord(id: UUID) async -> TripRecord? {
         let predicate = #Predicate<TripRecord> { object in
             object.id == id
         }
@@ -86,15 +81,14 @@ final actor StorageService: ModelActor {
         descriptor.fetchLimit = 1
         
         do {
-            let object = try modelContext.fetch(descriptor)
+            let object = try await SharedDatabase.shared.database.fetch(descriptor)
             return object.first
         } catch {
             return nil
         }
     }
     
-    func getPhoto(id: UUID) -> Photo? {
-//        let context = ModelContext(self.modelContainer)
+    func getPhoto(id: UUID) async -> Photo? {
         let predicate = #Predicate<Photo> { object in
             object.id == id
         }
@@ -103,21 +97,18 @@ final actor StorageService: ModelActor {
         descriptor.fetchLimit = 1
         
         do {
-            let object = try modelContext.fetch(descriptor)
+            let object = try await SharedDatabase.shared.database.fetch(descriptor)
             return object.first
         } catch {
             return nil
         }
     }
     
-    func insert(model: any PersistentModel) throws -> Void {
-//        let context = ModelContext(self.modelContainer)
-        modelContext.insert(model)
-//        try context.save()
+    func insert(model: any PersistentModel) async throws -> Void {
+        await SharedDatabase.shared.database.insert(model)
     }
     
-    func save() throws -> Void {
-//        let context = ModelContext(self.modelContainer)
-        try modelContext.save()
+    func save() async throws -> Void {
+        try await SharedDatabase.shared.database.save()
     }
 }

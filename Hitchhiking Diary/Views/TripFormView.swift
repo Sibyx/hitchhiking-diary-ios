@@ -2,9 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct TripFormView: View {
-    @Environment(\.modelContext) private var modelContext: ModelContext
-    
+    @Environment(\.database) private var database
     @Environment(\.dismiss) private var dismiss
+    
     @State var trip: Trip?
     
     @State private var title: String = ""
@@ -34,18 +34,21 @@ struct TripFormView: View {
             .navigationTitle(trip?.title ?? "New Trip" )
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        if let trip = trip {
-                            trip.title = title
-                            trip.content = content
-                            trip.status = status
-                            trip.updatedAt = Date()
-                            modelContext.insert(trip)
-                        } else {
-                            let trip = Trip(title: title, content: content, status: status)
-                            modelContext.insert(trip)
-                        }
-                        dismiss()
+                    Button(
+                        action: {
+                            Task {
+                                if let trip = trip {
+                                    trip.title = title
+                                    trip.content = content
+                                    trip.status = status
+                                    trip.updatedAt = Date()
+                                    await database.insert(trip)
+                                } else {
+                                    let trip = Trip(title: title, content: content, status: status)
+                                    await database.insert(trip)
+                                }
+                                dismiss()
+                            }
                     }) {Text("Save")}
                 }
             }
@@ -57,16 +60,5 @@ struct TripFormView: View {
                 }
             }
         }
-    }
-}
-
-#Preview {
-    do {
-        let previewer = try Previewer()
-
-        return TripFormView(trip: previewer.trip)
-            .modelContainer(previewer.container)
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }

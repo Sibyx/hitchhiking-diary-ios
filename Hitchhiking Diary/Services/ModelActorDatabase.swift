@@ -7,7 +7,6 @@ public protocol Database {
     func insert<T>(_ model: T) async where T: PersistentModel
     func save() async throws
     func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] where T: PersistentModel
-
     func delete<T: PersistentModel>(where predicate: Predicate<T>?) async throws
 }
 
@@ -104,6 +103,12 @@ public extension Scene {
     }
 }
 
+public extension View {
+    func database(_ database: any Database) -> some View {
+        self.environment(\.database, database)
+    }
+}
+
 public struct SharedDatabase {
     public static let shared: SharedDatabase = .init()
     public let modelContainer: ModelContainer
@@ -117,7 +122,7 @@ public struct SharedDatabase {
         } catch {
             fatalError("Could not initialize ModelContainer")
         }
-        self.database = database ?? ModelActorDatabase(modelContainer: modelContainer)
+        self.database = database ?? BackgroundDatabase(modelContainer: modelContainer)
     }
 }
 

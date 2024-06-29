@@ -3,7 +3,7 @@ import SwiftData
 import MapKit
 
 struct TripDetailView: View {
-    @Environment(\.modelContext) private var modelContext: ModelContext
+    @Environment(\.database) private var database
     @Bindable var trip: Trip
     
     var groupedRecords: [(key: Date, value: [TripRecord])] {
@@ -54,7 +54,11 @@ struct TripDetailView: View {
                             }
                             .swipeActions {
                                 Button(role: .destructive) {
-                                    deleteTripRecord(tripRecord)
+                                    Task {
+                                        tripRecord.updatedAt = Date()
+                                        tripRecord.deletedAt = Date()
+                                        await database.insert(tripRecord)
+                                    }
                                 } label: {
                                     Label("Delete", systemImage: "trash")
                                 }
@@ -77,22 +81,5 @@ struct TripDetailView: View {
             }
         }
         .navigationTitle(trip.title)
-    }
-
-    private func deleteTripRecord(_ tripRecord: TripRecord) {
-        tripRecord.updatedAt = Date()
-        tripRecord.deletedAt = Date()
-        modelContext.insert(tripRecord)
-    }
-}
-
-#Preview {
-    do {
-        let previewer = try Previewer()
-
-        return TripDetailView(trip: previewer.trip)
-            .modelContainer(previewer.container)
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
     }
 }

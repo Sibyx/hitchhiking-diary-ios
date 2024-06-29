@@ -15,9 +15,9 @@ class SyncService {
     private let lastSyncAt: Date?
     private let storageService: StorageService
     
-    init(apiClient: APIClient, container: ModelContainer, lastSyncAt: Date? = nil) {
-        self.storageService = StorageService(modelContainer: container)
+    init(apiClient: APIClient, lastSyncAt: Date? = nil) {
         self.apiClient = apiClient
+        self.storageService = StorageService()
         self.lastSyncAt = lastSyncAt
     }
     
@@ -27,6 +27,7 @@ class SyncService {
         let trips = await storageService.fetchTrips(lastSyncAt: self.lastSyncAt)
         let records = await storageService.fetchTripRecords(lastSyncAt: self.lastSyncAt)
         let photos = await storageService.fetchPhotos(lastSyncAt: self.lastSyncAt)
+        
         
         NSLog("Sync: Local cache loaded")
         
