@@ -2,18 +2,14 @@ import SwiftData
 import Foundation
 
 /**
- To be honest. I have no idea what I am doing here. Trying to have it in "it just work state".
- I am sorry for everybody who read this. If you have a better solution for thread-safety I beg you offer a PR and teach me a lesson.
- @link https://medium.com/@abozaid.ibrahim11/thread-safety-in-swift-a-comparison-of-locking-strategies-locks-vs-lock-free-70e872ac8e29
+ Not great. Not terrible.
+ I love the guy who wrote the blogpost bellow. Resolved so many issues.
+ https://jacobbartlett.substack.com/p/swiftdata-outside-swiftui
  */
-class StorageService {
-    private let modelContext: ModelContext
-    
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
-    }
- 
+@ModelActor
+final actor StorageService: ModelActor {
     func fetchTrips(lastSyncAt: Date?) -> [TripSyncSchema] {
+//        let context = ModelContext(self.modelContainer)
         var descriptor = FetchDescriptor<Trip>()
     
         if let lastSyncAt = lastSyncAt {
@@ -30,6 +26,7 @@ class StorageService {
     }
     
     func fetchTripRecords(lastSyncAt: Date?) -> [TripRecordSyncSchema] {
+//        let context = ModelContext(self.modelContainer)
         var descriptor = FetchDescriptor<TripRecord>()
     
         if let lastSyncAt = lastSyncAt {
@@ -46,6 +43,7 @@ class StorageService {
     }
     
     func fetchPhotos(lastSyncAt: Date?) -> [PhotoSyncSchema] {
+//        let context = ModelContext(self.modelContainer)
         var descriptor = FetchDescriptor<Photo>()
     
         if let lastSyncAt = lastSyncAt {
@@ -62,6 +60,7 @@ class StorageService {
     }
     
     func getTrip(id: UUID) -> Trip? {
+//        let context = ModelContext(self.modelContainer)
         let predicate = #Predicate<Trip> { object in
             object.id == id
         }
@@ -78,6 +77,7 @@ class StorageService {
     }
     
     func getTripRecord(id: UUID) -> TripRecord? {
+//        let context = ModelContext(self.modelContainer)
         let predicate = #Predicate<TripRecord> { object in
             object.id == id
         }
@@ -94,6 +94,7 @@ class StorageService {
     }
     
     func getPhoto(id: UUID) -> Photo? {
+//        let context = ModelContext(self.modelContainer)
         let predicate = #Predicate<Photo> { object in
             object.id == id
         }
@@ -109,7 +110,14 @@ class StorageService {
         }
     }
     
-    func insert(model: any PersistentModel) -> Void {
+    func insert(model: any PersistentModel) throws -> Void {
+//        let context = ModelContext(self.modelContainer)
         modelContext.insert(model)
+//        try context.save()
+    }
+    
+    func save() throws -> Void {
+//        let context = ModelContext(self.modelContainer)
+        try modelContext.save()
     }
 }

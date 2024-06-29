@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 class AppState: ObservableObject {
     @Published var token: String? {

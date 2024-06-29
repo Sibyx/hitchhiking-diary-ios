@@ -31,7 +31,9 @@ struct ContentView: View {
                             }
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button(action: {
-                                    syncTrips()
+                                    Task {
+                                        await syncTrips()
+                                    }
                                 }) {
                                     Image(systemName: "arrow.triangle.2.circlepath")
                                 }
@@ -49,12 +51,7 @@ struct ContentView: View {
                         .overlay(
                             Group {
                                 if isSyncing {
-                                    Color.black.opacity(0.4)
-                                        .ignoresSafeArea()
-                                    ProgressView("Syncing...")
-                                        .padding()
-                                        .background(Color.white)
-                                        .cornerRadius(10)
+                                    LoaderView()
                                 }
                             }
                         )
@@ -63,15 +60,15 @@ struct ContentView: View {
         }
     }
     
-    private func syncTrips() {
+    private func syncTrips() async {
         guard !isSyncing else { return }
         
         self.isSyncing = true
         
         let apiClient = APIClient(token: appState.token)
-        let syncService = SyncService(apiClient: apiClient, modelContext: modelContext)
+        let syncService = SyncService(apiClient: apiClient, container: self.appState.modelContainer)
         
-        syncService.sync { result in
+        await syncService.sync { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:

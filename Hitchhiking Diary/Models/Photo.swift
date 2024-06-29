@@ -5,7 +5,7 @@ import SwiftData
 @Model
 class Photo {
     @Attribute(.unique) var id: UUID
-    var record: TripRecord?
+    @Relationship(deleteRule: .nullify) var record: TripRecord?
     @Attribute(.externalStorage) var content: Data
     var createdAt: Date
     var updatedAt: Date

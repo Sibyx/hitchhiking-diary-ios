@@ -220,9 +220,9 @@ struct PhotoSyncSchema: Codable {
 
 // MARK: - API Client
 class APIClient {
-//    private let baseURL = URL(string: "http://192.168.0.197:8000")!
+    private let baseURL = URL(string: "http://192.168.0.197:8000")!
 //    private let baseURL = URL(string: "http://10.24.149.234:8000")!
-    private let baseURL = URL(string: "http://172.20.10.5:8000")!
+//    private let baseURL = URL(string: "http://172.20.10.5:8000")!
     private var token: String?
     
     private let encoder = JSONEncoder()
