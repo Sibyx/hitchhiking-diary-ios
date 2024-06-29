@@ -301,6 +301,8 @@ class APIClient {
     }
 
     func uploadPhoto(photoId: UUID, file: Data, completion: @escaping (Result<PhotoDetailSchema, Error>) -> Void) {
+        NSLog("ApiClient: Preparing POST /api/v1/photos/\(photoId.uuidString)")
+        
         let url = baseURL.appendingPathComponent("/api/v1/photos/\(photoId.uuidString)")
         var request = URLRequest(url: url)
         
@@ -324,13 +326,17 @@ class APIClient {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
+                NSLog("ApiClient: POST /api/v1/photos/\(photoId.uuidString) failed bigly - \(String(describing: error))")
                 completion(.failure(error!))
                 return
             }
             do {
+                NSLog("ApiClient: POST /api/v1/photos/\(photoId.uuidString) success")
                 let photoDetail = try self.decoder.decode(PhotoDetailSchema.self, from: data)
+                NSLog("ApiClient: POST /api/v1/photos/\(photoId.uuidString) returned \(photoDetail.id)")
                 completion(.success(photoDetail))
             } catch {
+                NSLog("ApiClient: POST /api/v1/photos/\(photoId.uuidString) failed bigly - \(String(describing: error))")
                 completion(.failure(error))
             }
         }.resume()

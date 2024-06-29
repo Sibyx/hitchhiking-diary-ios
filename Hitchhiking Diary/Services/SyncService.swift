@@ -13,16 +13,21 @@ class SyncService {
         self.lastSyncAt = lastSyncAt
     }
     
-    func sync(completion: @escaping (Result<Void, Error>) -> Void) {
-        NSLog("Sync: Started")
-        
+    func prepareSyncRequestSchema() -> SyncRequestSchema {
         let trips = storageService.fetchTrips(lastSyncAt: self.lastSyncAt)
         let records = storageService.fetchTripRecords(lastSyncAt: self.lastSyncAt)
         let photos = storageService.fetchPhotos(lastSyncAt: self.lastSyncAt)
         
+        return SyncRequestSchema(trips: trips, records: records, photos: photos, lastSyncAt: lastSyncAt)
+    }
+    
+    func sync(completion: @escaping (Result<Void, Error>) -> Void) {
+        NSLog("Sync: Started")
+                
+        
         NSLog("Sync: Local cache loaded")
         
-        let syncRequest = SyncRequestSchema(trips: trips, records: records, photos: photos, lastSyncAt: lastSyncAt)
+        let syncRequest = prepareSyncRequestSchema()
         
         NSLog("Sync: SyncRequestSchema created")
         

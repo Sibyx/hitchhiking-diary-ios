@@ -8,7 +8,6 @@ import Foundation
  */
 class StorageService {
     private let modelContext: ModelContext
-    private let lock = NSLock()
     
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
@@ -23,8 +22,6 @@ class StorageService {
             }
         }
         
-        lock.lock()
-        defer {lock.unlock()}
         guard let trips = try? modelContext.fetch(descriptor) else {
             return []
         }
@@ -41,8 +38,6 @@ class StorageService {
             }
         }
         
-        lock.lock()
-        defer {lock.unlock()}
         guard let records = try? modelContext.fetch(descriptor) else {
             return []
         }
@@ -59,8 +54,6 @@ class StorageService {
             }
         }
         
-        lock.lock()
-        defer {lock.unlock()}
         guard let photos = try? modelContext.fetch(descriptor) else {
             return []
         }
@@ -77,8 +70,6 @@ class StorageService {
         descriptor.fetchLimit = 1
         
         do {
-            lock.lock()
-            defer {lock.unlock()}
             let object = try modelContext.fetch(descriptor)
             return object.first
         } catch {
@@ -95,8 +86,6 @@ class StorageService {
         descriptor.fetchLimit = 1
         
         do {
-            lock.lock()
-            defer {lock.unlock()}
             let object = try modelContext.fetch(descriptor)
             return object.first
         } catch {
@@ -113,8 +102,6 @@ class StorageService {
         descriptor.fetchLimit = 1
         
         do {
-            lock.lock()
-            defer {lock.unlock()}
             let object = try modelContext.fetch(descriptor)
             return object.first
         } catch {
@@ -123,8 +110,6 @@ class StorageService {
     }
     
     func insert(model: any PersistentModel) -> Void {
-        lock.lock()
-        defer {lock.unlock()}
         modelContext.insert(model)
     }
 }
