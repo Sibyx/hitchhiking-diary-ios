@@ -7,9 +7,9 @@ struct TripDetailView: View {
     @Bindable var trip: Trip
     
     var groupedRecords: [(key: Date, value: [TripRecord])] {
-        let sortedRecords = trip.records.filter{item in item.deletedAt == nil}.sorted { $0.createdAt > $1.createdAt }
+        let sortedRecords = trip.records.filter{item in item.deletedAt == nil}.sorted { $0.happenedAt > $1.happenedAt }
         let grouped = Dictionary(grouping: sortedRecords) { (record: TripRecord) -> Date in
-            let components = Calendar.current.dateComponents([.year, .month, .day], from: record.createdAt)
+            let components = Calendar.current.dateComponents([.year, .month, .day], from: record.happenedAt)
             return Calendar.current.date(from: components)!
         }
         return grouped.sorted { $0.key > $1.key }
@@ -20,7 +20,7 @@ struct TripDetailView: View {
             HStack(alignment: .top) {
                 trip.status.icon()
                     .font(.caption)
-                Text(trip.status.rawValue.capitalized)
+                Text(trip.status.title().capitalized)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -31,9 +31,9 @@ struct TripDetailView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Map() {
-                ForEach(trip.records, id:\.self) {
+                ForEach(trip.records.filter{item in item.deletedAt == nil}, id:\.self) {
                     record in
-                    Annotation(record.type.rawValue, coordinate: record.location) {
+                    Annotation(record.type.title(), coordinate: record.location) {
                         record.type.icon()
                     }
                 }
@@ -49,7 +49,7 @@ struct TripDetailView: View {
                             NavigationLink(destination: TripRecordDetailView(tripRecord: tripRecord)) {
                                 HStack {
                                     tripRecord.type.icon()
-                                    Text(tripRecord.type.rawValue)
+                                    Text(tripRecord.type.title())
                                 }
                             }
                             .swipeActions {

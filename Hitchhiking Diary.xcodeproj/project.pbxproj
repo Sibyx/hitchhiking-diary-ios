@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FD54BFCB2C2E18650059932A /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54BFCA2C2E18650059932A /* APIClient.swift */; };
 		FD54BFCD2C2E196A0059932A /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54BFCC2C2E196A0059932A /* SyncService.swift */; };
+		FD54BFD22C2F35270059932A /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54BFD12C2F35270059932A /* StorageService.swift */; };
 		FD59F97B2C1BC4650094FB6F /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD59F97A2C1BC4650094FB6F /* PhotoPicker.swift */; };
 		FD66AB812C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */; };
 		FD66AB872C1B8F6E0018C2B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 		FD54BFCC2C2E196A0059932A /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
 		FD54BFCE2C2E36950059932A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FD54BFD02C2E37E60059932A /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpg; sourceTree = "<group>"; };
+		FD54BFD12C2F35270059932A /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		FD59F97A2C1BC4650094FB6F /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		FD66AB7D2C1B8F6D0018C2B8 /* Hitchhiking Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hitchhiking Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitchhikingDiaryApp.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			children = (
 				FD54BFCA2C2E18650059932A /* APIClient.swift */,
 				FD54BFCC2C2E196A0059932A /* SyncService.swift */,
+				FD54BFD12C2F35270059932A /* StorageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				FD54BFCD2C2E196A0059932A /* SyncService.swift in Sources */,
 				FD66ABB72C1BAEC60018C2B8 /* AppState.swift in Sources */,
 				FD66ABB92C1BAEE60018C2B8 /* ContentView.swift in Sources */,
+				FD54BFD22C2F35270059932A /* StorageService.swift in Sources */,
 				FD59F97B2C1BC4650094FB6F /* PhotoPicker.swift in Sources */,
 				FD66AB9C2C1B9C770018C2B8 /* TripListView.swift in Sources */,
 				FD66AB9A2C1B9C050018C2B8 /* LoginView.swift in Sources */,

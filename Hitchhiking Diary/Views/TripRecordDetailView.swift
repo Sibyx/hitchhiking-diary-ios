@@ -61,7 +61,7 @@ struct TripRecordDetailView: View {
                 }
             }
         }
-        .navigationTitle(tripRecord.type.rawValue)
+        .navigationTitle(tripRecord.type.title())
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $isPhotoPresented) {
             if let selectedPhoto = selectedPhoto {

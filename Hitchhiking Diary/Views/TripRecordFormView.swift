@@ -15,6 +15,7 @@ struct TripRecordFormView: View {
     @State private var content: String = ""
     @State private var location: CLLocationCoordinate2D?
     @State private var photos: [UIImage] = []
+    @State private var photoMapping: [UIImage: Photo] = [:]
     
     @State private var showAlert = false
     @State private var showPhotoPicker = false
@@ -27,7 +28,7 @@ struct TripRecordFormView: View {
                         ForEach(TripRecordType.allCases, id: \.self) { type in
                             HStack {
                                 type.icon()
-                                Text(type.rawValue)
+                                Text(type.title())
                             }.tag(type)
                         }
                     }
@@ -57,7 +58,10 @@ struct TripRecordFormView: View {
                                         .frame(width: 100, height: 100)
                                         .cornerRadius(10)
                                     Button(action: {
-                                        photos.remove(at: index)
+                                        let removedPhoto = photos.remove(at: index)
+                                        if let photo = photoMapping[removedPhoto] {
+                                            photoMapping.removeValue(forKey: removedPhoto)
+                                        }
                                     }) {
                                         Image(systemName: "minus.circle.fill")
                                             .foregroundColor(.red)
@@ -89,42 +93,41 @@ struct TripRecordFormView: View {
                             tripRecord.updatedAt = Date()
                             modelContext.insert(tripRecord)
                             
-                            var checksums: [String] = [String]()
-                            for i in photos {
-                                let photo = Photo(content: i.jpegData(compressionQuality: 1)!)
-                                checksums.append(photo.checksum)
-                                if tripRecord.photos.filter({$0.checksum == photo.checksum}).isEmpty {
-                                    tripRecord.photos.append(photo)
+                            // Update photos
+                            for uiImage in photos {
+                                if photoMapping[uiImage] == nil {
+                                    let newPhoto = Photo(content: uiImage.jpegData(compressionQuality: 1)!)
+                                    tripRecord.photos.append(newPhoto)
+                                    photoMapping[uiImage] = newPhoto
                                 }
                             }
                             
-                            for i in tripRecord.photos.filter({!checksums.contains($0.checksum)}) {
-                                i.updatedAt = Date()
-                                i.deletedAt = Date()
+                            for photo in tripRecord.photos.filter({ !photoMapping.values.contains($0) }) {
+                                photo.updatedAt = Date()
+                                photo.deletedAt = Date()
+                                modelContext.insert(photo)
                             }
-                            
-                            tripRecord.photos.removeAll(where: {!checksums.contains($0.checksum)})
-                            
+
                             dismiss()
                         } else {
                             if let location {
                                 let tripRecord = TripRecord(type: type, content: content, location: location)
                                 trip.records.append(tripRecord)
                                 
-                                for i in photos {
-                                    let photo = Photo(content: i.jpegData(compressionQuality: 1)!)
-                                    if tripRecord.photos.filter({$0.checksum == photo.checksum}).isEmpty {
-                                        tripRecord.photos.append(photo)
+                                for uiImage in photos {
+                                    if photoMapping[uiImage] == nil {
+                                        let newPhoto = Photo(content: uiImage.jpegData(compressionQuality: 1)!)
+                                        tripRecord.photos.append(newPhoto)
+                                        photoMapping[uiImage] = newPhoto
                                     }
                                 }
                                 
                                 dismiss()
-                            }
-                            else {
+                            } else {
                                 showAlert = true
                             }
                         }
-                    }) {Text("Save")}
+                    }) { Text("Save") }
                 }
             }
             .onAppear {
@@ -132,7 +135,13 @@ struct TripRecordFormView: View {
                     type = tripRecord.type
                     content = tripRecord.content ?? ""
                     location = tripRecord.location
-                    photos = tripRecord.photos.filter({$0.deletedAt == nil}).compactMap { UIImage(data: $0.content) }
+                    photos = tripRecord.photos.filter { $0.deletedAt == nil }.compactMap {
+                        let uiImage = UIImage(data: $0.content)
+                        if let uiImage = uiImage {
+                            photoMapping[uiImage] = $0
+                        }
+                        return uiImage
+                    }
                 } else {
                     location = locationManager.lastLocation?.coordinate
                 }

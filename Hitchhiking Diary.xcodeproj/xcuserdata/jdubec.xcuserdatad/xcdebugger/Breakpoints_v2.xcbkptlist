@@ -7,32 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "53A25220-41CB-4F39-8632-425080E526B4"
+            uuid = "1418B7AA-8D57-4F03-A11E-7CF2AE9717E7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hitchhiking Diary/Views/TripRecordFormView.swift"
+            filePath = "Hitchhiking Diary/Services/APIClient.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "uploadPhoto(photoId:file:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "175CFB0B-E9C6-471A-9605-1243EDB1322A"
+            uuid = "115F3803-D935-4A7B-9625-46D407921D38"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hitchhiking Diary/Services/SyncService.swift"
+            filePath = "Hitchhiking Diary/Services/APIClient.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "updateLocalDatabase(with:)"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "uploadPhoto(photoId:file:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6DE37CBB-0DAA-4147-A27E-6FCD51EA90FC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hitchhiking Diary/Services/APIClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
+            landmarkName = "uploadPhoto(photoId:file:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

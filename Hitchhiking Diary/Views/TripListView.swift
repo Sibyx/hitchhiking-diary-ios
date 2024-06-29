@@ -8,9 +8,6 @@ struct TripListView: View {
     @Query(filter: #Predicate<Trip> { trip in
         trip.deletedAt == nil
     }, sort: \Trip.createdAt, order: .reverse) var trips: [Trip]
-    
-    @State private var showingErrorAlert = false
-    @State private var errorMessage = ""
 
     var body: some View {
         List {
@@ -21,12 +18,6 @@ struct TripListView: View {
             }
             .onDelete(perform: deleteTrip)
         }
-        .refreshable {
-            syncTrips()
-        }
-        .alert(isPresented: $showingErrorAlert) {
-            Alert(title: Text("Sync Failed"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-        }
     }
     
     func deleteTrip(at offsets: IndexSet) {
@@ -35,23 +26,6 @@ struct TripListView: View {
             trip.updatedAt = Date()
             trip.deletedAt = Date()
             modelContext.insert(trip)
-        }
-    }
-    
-    private func syncTrips() {
-        let apiClient = APIClient(token: appState.token)
-        let syncService = SyncService(apiClient: apiClient, modelContext: modelContext)
-        
-        syncService.sync { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    print("Sync successful")
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                    self.showingErrorAlert = true
-                }
-            }
         }
     }
 }

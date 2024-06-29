@@ -20,7 +20,7 @@ struct TripFormView: View {
                         ForEach(TripStatus.allCases, id: \.self) { type in
                             HStack {
                                 type.icon()
-                                Text(type.rawValue)
+                                Text(type.title())
                             }.tag(type)
                         }
                     }

@@ -4,12 +4,29 @@ import SwiftUI
 import SwiftData
 
 enum TripRecordType: String, Codable, CaseIterable {
-    case interesting = "Interesting"
-    case workout = "Workout"
-    case camping = "Camping"
-    case pickup = "Pickup"
-    case dropoff = "Dropoff"
-    case story = "Story"
+    case interesting
+    case workout
+    case camping
+    case pickup
+    case dropoff
+    case story
+    
+    func title() -> String {
+        switch self {
+        case .interesting:
+            return NSLocalizedString("Interesting", comment: "Trip Record Type: Interesting")
+        case .camping:
+            return NSLocalizedString("Camping", comment: "Trip Record Type: Camping")
+        case .workout:
+            return NSLocalizedString("Workout", comment: "Trip Record Type: Workout")
+        case .pickup:
+            return NSLocalizedString("Pickup", comment: "Trip Record Type: Pickup")
+        case .dropoff:
+            return NSLocalizedString("Dropoff", comment: "Trip Record Type: Dropoff")
+        case .story:
+            return NSLocalizedString("Story", comment: "Trip Record Type: Story")
+        }
+    }
     
     func icon() -> Image {
         switch self {
@@ -42,7 +59,7 @@ class TripRecord {
     var updatedAt: Date
     var deletedAt: Date? = nil
 
-    init(id: UUID = UUID(), type: TripRecordType, content: String, location: CLLocationCoordinate2D, happenedAt: Date = Date(), photos: [Photo] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
+    init(id: UUID = UUID(), type: TripRecordType, content: String, location: CLLocationCoordinate2D, happenedAt: Date = Date(), photos: [Photo] = [], createdAt: Date = Date(), updatedAt: Date = Date(), deletedAt: Date? = nil) {
         self.id = id
         self.type = type
         self.content = content
@@ -51,6 +68,7 @@ class TripRecord {
         self.photos = photos
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.deletedAt = deletedAt
     }
 }
 

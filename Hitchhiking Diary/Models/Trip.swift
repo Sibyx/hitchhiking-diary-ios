@@ -8,6 +8,17 @@ enum TripStatus: String, Codable, CaseIterable {
     case inProgress = "in-progress"
     case archived
     
+    func title() -> String {
+        switch self {
+        case .draft:
+            return NSLocalizedString("Draft", comment: "Trip Status: Interesting")
+        case .inProgress:
+            return NSLocalizedString("In-progress", comment: "Trip Status: In-progress")
+        case .archived:
+            return NSLocalizedString("Archived", comment: "Trip Status: Archived")
+        }
+    }
+    
     func icon() -> Image {
         switch self {
         case .draft:
@@ -31,7 +42,7 @@ class Trip {
     var deletedAt: Date? = nil
     @Relationship(deleteRule: .cascade, inverse: \TripRecord.trip) var records: [TripRecord]
 
-    init(id: UUID = UUID(), title: String, content: String = "", status: TripStatus = .draft, records: [TripRecord] = [], createdAt: Date = Date(), updatedAt: Date = Date()) {
+    init(id: UUID = UUID(), title: String, content: String = "", status: TripStatus = .draft, records: [TripRecord] = [], createdAt: Date = Date(), updatedAt: Date = Date(), deletedAt: Date? = nil) {
         self.id = id
         self.title = title
         self.content = content
@@ -39,5 +50,6 @@ class Trip {
         self.records = records
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.deletedAt = deletedAt
     }
 }
