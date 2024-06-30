@@ -1,6 +1,8 @@
 # Hitchhiking Diary
 
-![Hitchhiking Diary Logo](docs/logo.jpg)
+<p align="center">
+    <img width="200" height="200" src="docs/logo.png">
+</p>
 
 ## Overview
 
