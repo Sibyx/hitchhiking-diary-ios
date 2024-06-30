@@ -1,7 +1,7 @@
 # Hitchhiking Diary
 
 <p align="center">
-    <img width="200" height="200" src="docs/logo.png">
+    <img width="200" height="200" src="docs/logo.jpg">
 </p>
 
 ## Overview
