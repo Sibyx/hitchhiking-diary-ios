@@ -21,6 +21,7 @@ class SyncService {
         self.lastSyncAt = lastSyncAt
     }
     
+    
     func sync(completion: @escaping (Result<Void, Error>) -> Void) async {
         NSLog("Sync: Started")
         
@@ -132,16 +133,6 @@ class SyncService {
                     record.trip = trip
                     
                     try await self.storageService.save()
-                    
-                    
-                    
-                    
-//                        if record.trip == nil {
-//                            trip.records.append(record)
-//                            try await self.storageService.insert(model: trip)
-//                        } else {
-//                            try await self.storageService.insert(model: record)
-//                        }
                 } catch {
                     await errorCollector.add(error)
                 }
@@ -178,10 +169,6 @@ class SyncService {
                         
                         photo.record = record
                         try await self.storageService.save()
-                        
-//                        record.photos.append(photo)
-                        
-                        
                     }
                 } catch {
                     await errorCollector.add(error)

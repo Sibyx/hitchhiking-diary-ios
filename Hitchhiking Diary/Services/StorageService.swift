@@ -5,6 +5,7 @@ import Foundation
  Not great. Not terrible.
  I love the guy who wrote the blogpost bellow. Resolved so many issues.
  https://jacobbartlett.substack.com/p/swiftdata-outside-swiftui
+ https://brightdigit.com/tutorials/swiftdata-modelactor/
  */
 
 final actor StorageService {

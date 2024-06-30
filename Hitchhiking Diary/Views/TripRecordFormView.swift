@@ -104,10 +104,13 @@ struct TripRecordFormView: View {
                                 }
                                 
                                 for photo in tripRecord.photos.filter({ !photoMapping.values.contains($0) }) {
+                                    NSLog("Photo deleted!")
                                     photo.updatedAt = Date()
                                     photo.deletedAt = Date()
                                     await database.insert(photo)
                                 }
+                                
+                                try! await database.save()
 
                                 dismiss()
                             } else {
