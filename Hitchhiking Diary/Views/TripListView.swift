@@ -13,12 +13,12 @@ struct TripListView: View {
 
     var body: some View {
         List {
-            ForEach(trips) {
-                trip in NavigationLink(value: trip) {
+            ForEach(trips) { trip in
+                NavigationLink(value: trip) {
                     Text(trip.title)
                 }
             }
-            .onDelete{offsets in
+            .onDelete { offsets in
                 Task {
                     for offset in offsets {
                         let trip = trips[offset]
@@ -26,6 +26,7 @@ struct TripListView: View {
                         trip.deletedAt = Date()
                         await database.insert(trip)
                     }
+                    self.trips = await fetchTrips() // Refresh the trip list after deletion
                 }
             }
         }
@@ -40,16 +41,13 @@ struct TripListView: View {
             }
         )
         .task {
-            if (trips.isEmpty) {
+            if trips.isEmpty {
                 self.trips = await fetchTrips()
             }
         }
         .refreshable {
-            if (!isSyncing) {
-                Task {
-                    await syncTrips()
-                }
-                self.trips = await fetchTrips()
+            if !isSyncing {
+                await syncTrips()
             }
         }
     }
@@ -66,6 +64,7 @@ struct TripListView: View {
     }
     
     private func syncTrips() async {
+        isSyncing = true
         let apiClient = APIClient(token: appState.token)
         let syncService = SyncService(apiClient: apiClient)
         
@@ -74,7 +73,9 @@ struct TripListView: View {
                 switch result {
                 case .success:
                     self.isSyncing = false
-                    print("Sync successful")
+                    Task {
+                        self.trips = await fetchTrips()
+                    }
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                     self.showingErrorAlert = true
