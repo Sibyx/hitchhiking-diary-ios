@@ -15,7 +15,7 @@ struct TripListView: View {
         List {
             ForEach(trips) { trip in
                 NavigationLink(value: trip) {
-                    Text(trip.title)
+                    TripListItemView(trip: trip)
                 }
             }
             .onDelete { offsets in
@@ -52,11 +52,65 @@ struct TripListView: View {
         }
     }
     
+    private struct TripListItemView: View {
+        let trip: Trip
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text(trip.title)
+                    .font(.title)
+                    .padding(.bottom, 10)
+                
+                HStack {
+                    
+                    HStack(alignment: .top) {
+                        trip.status.icon()
+                            .font(.footnote)
+                        Text(trip.status.title().capitalized)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .top) {
+                        Image(systemName: "mappin.circle")
+                            .font(.footnote)
+                        Text("\(trip.records.count)")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .top) {
+                        Image(systemName: "calendar.badge.plus")
+                            .font(.footnote)
+                        Text(trip.createdAt, style: .date)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
+    
     private func fetchTrips() async -> [Trip] {
         do {
-            return try await database.fetch(#Predicate<Trip> { trip in
-                trip.deletedAt == nil
-            })
+            var trips = try await database.fetch(#Predicate<Trip> { trip in trip.deletedAt == nil})
+            
+            
+            trips.sort {
+                if $0.status.order() == $1.status.order() {
+                    return $0.createdAt > $1.createdAt
+                }
+                return $0.status.order() < $1.status.order()
+            }
+            
+            return trips
+            
         } catch {
             print("Failed to fetch trips: \(error.localizedDescription)")
             return []

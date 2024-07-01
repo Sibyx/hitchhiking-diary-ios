@@ -4,8 +4,8 @@ import SwiftData
 import SwiftUI
 
 enum TripStatus: String, Codable, CaseIterable {
-    case draft
     case inProgress = "in-progress"
+    case draft
     case archived
     
     func title() -> String {
@@ -27,6 +27,17 @@ enum TripStatus: String, Codable, CaseIterable {
             return Image(systemName: "point.bottomleft.forward.to.point.topright.scurvepath")
         case .archived:
             return Image(systemName: "archivebox")
+        }
+    }
+    
+    func order() -> Int {
+        switch self {
+        case .inProgress:
+            return 0
+        case .draft:
+            return 1
+        case .archived:
+            return 2
         }
     }
 }
