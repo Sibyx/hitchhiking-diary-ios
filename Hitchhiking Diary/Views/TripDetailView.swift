@@ -58,6 +58,7 @@ struct TripDetailView: View {
                                         tripRecord.updatedAt = Date()
                                         tripRecord.deletedAt = Date()
                                         await database.insert(tripRecord)
+                                        try! await database.save()
                                     }
                                 } label: {
                                     Label("Delete", systemImage: "trash")

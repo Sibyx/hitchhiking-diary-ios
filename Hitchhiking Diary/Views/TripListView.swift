@@ -41,9 +41,7 @@ struct TripListView: View {
             }
         )
         .task {
-            if trips.isEmpty {
-                self.trips = await fetchTrips()
-            }
+            self.trips = await fetchTrips()
         }
         .refreshable {
             if !isSyncing {

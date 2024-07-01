@@ -95,6 +95,7 @@ class SyncService {
                     trip.deletedAt = item.deletedAt
                     
                     try await self.storageService.insert(model: trip)
+                    try await self.storageService.save()
                 } catch {
                     await errorCollector.add(error)
                 }

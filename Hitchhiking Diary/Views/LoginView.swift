@@ -2,8 +2,8 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
-    @State private var username: String = "arthur.dent"
-    @State private var password: String = "Secret42"
+    @State private var username: String = ""
+    @State private var password: String = ""
     @State private var errorMessage: String? = nil
 
     var body: some View {

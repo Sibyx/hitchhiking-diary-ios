@@ -126,6 +126,8 @@ struct TripRecordFormView: View {
                                         }
                                     }
                                     
+                                    try! await database.save()
+                                    
                                     dismiss()
                                 } else {
                                     showAlert = true

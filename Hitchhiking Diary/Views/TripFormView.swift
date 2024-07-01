@@ -46,6 +46,7 @@ struct TripFormView: View {
                                 } else {
                                     let trip = Trip(title: title, content: content, status: status)
                                     await database.insert(trip)
+                                    try! await database.save()
                                 }
                                 dismiss()
                             }
