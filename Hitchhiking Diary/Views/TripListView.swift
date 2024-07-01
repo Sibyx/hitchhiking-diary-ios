@@ -41,9 +41,7 @@ struct TripListView: View {
             }
         )
         .task {
-            if appState.token != nil {
-                self.trips = await fetchTrips()
-            }
+            self.trips = await fetchTrips()
         }
         .refreshable {
             if !isSyncing && appState.token != nil {
