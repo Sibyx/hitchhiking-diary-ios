@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD5343762C32D536004F2A15 /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5343752C32D536004F2A15 /* UserDetailView.swift */; };
 		FD54A89D2C30A11000B209E5 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54A89C2C30A11000B209E5 /* LoaderView.swift */; };
 		FD54A89F2C30B99800B209E5 /* ModelActorDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54A89E2C30B99800B209E5 /* ModelActorDatabase.swift */; };
 		FD54BFCB2C2E18650059932A /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54BFCA2C2E18650059932A /* APIClient.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD5343752C32D536004F2A15 /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
 		FD54A89C2C30A11000B209E5 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		FD54A89E2C30B99800B209E5 /* ModelActorDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelActorDatabase.swift; sourceTree = "<group>"; };
 		FD54A8A02C30DF6900B209E5 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */,
 				FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */,
 				FD54A89C2C30A11000B209E5 /* LoaderView.swift */,
+				FD5343752C32D536004F2A15 /* UserDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				FD54BFCB2C2E18650059932A /* APIClient.swift in Sources */,
 				FD54BFCD2C2E196A0059932A /* SyncService.swift in Sources */,
 				FD66ABB72C1BAEC60018C2B8 /* AppState.swift in Sources */,
+				FD5343762C32D536004F2A15 /* UserDetailView.swift in Sources */,
 				FD66ABB92C1BAEE60018C2B8 /* ContentView.swift in Sources */,
 				FD54BFD22C2F35270059932A /* StorageService.swift in Sources */,
 				FD59F97B2C1BC4650094FB6F /* PhotoPicker.swift in Sources */,

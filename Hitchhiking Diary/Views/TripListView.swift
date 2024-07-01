@@ -41,10 +41,12 @@ struct TripListView: View {
             }
         )
         .task {
-            self.trips = await fetchTrips()
+            if appState.token != nil {
+                self.trips = await fetchTrips()
+            }
         }
         .refreshable {
-            if !isSyncing {
+            if !isSyncing && appState.token != nil {
                 await syncTrips()
             }
         }
@@ -64,7 +66,7 @@ struct TripListView: View {
     private func syncTrips() async {
         isSyncing = true
         let apiClient = APIClient(token: appState.token)
-        let syncService = SyncService(apiClient: apiClient)
+        let syncService = SyncService(apiClient: apiClient, appState: appState)
         
         await syncService.sync { result in
             DispatchQueue.main.async {

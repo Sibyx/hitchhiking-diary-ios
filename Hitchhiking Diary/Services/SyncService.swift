@@ -12,27 +12,28 @@ actor ErrorCollector {
 
 class SyncService {
     private let apiClient: APIClient
-    private let lastSyncAt: Date?
+    private let appState: AppState
     private let storageService: StorageService
     
-    init(apiClient: APIClient, lastSyncAt: Date? = nil) {
+    init(apiClient: APIClient, appState: AppState) {
         self.apiClient = apiClient
+        self.appState = appState
         self.storageService = StorageService()
-        self.lastSyncAt = lastSyncAt
     }
     
     
     func sync(completion: @escaping (Result<Void, Error>) -> Void) async {
         NSLog("Sync: Started")
         
-        let trips = await storageService.fetchTrips(lastSyncAt: self.lastSyncAt)
-        let records = await storageService.fetchTripRecords(lastSyncAt: self.lastSyncAt)
-        let photos = await storageService.fetchPhotos(lastSyncAt: self.lastSyncAt)
+        let syncTimestamp = Date()
+        let trips = await storageService.fetchTrips(lastSyncAt: self.appState.lastSyncAt)
+        let records = await storageService.fetchTripRecords(lastSyncAt: self.appState.lastSyncAt)
+        let photos = await storageService.fetchPhotos(lastSyncAt: self.appState.lastSyncAt)
         
         
         NSLog("Sync: Local cache loaded")
         
-        let syncRequest = SyncRequestSchema(trips: trips, records: records, photos: photos, lastSyncAt: lastSyncAt)
+        let syncRequest = SyncRequestSchema(trips: trips, records: records, photos: photos, lastSyncAt: self.appState.lastSyncAt)
         
         NSLog("Sync: SyncRequestSchema created")
         
@@ -43,6 +44,7 @@ class SyncService {
                     do {
                         try await self.updateLocalDatabase(with: syncResponse)
                         NSLog("Sync: Success")
+                        self.appState.lastSyncAt = syncTimestamp
                         completion(.success(()))
                     } catch {
                         NSLog("Sync: Failed updating local database and photos")
