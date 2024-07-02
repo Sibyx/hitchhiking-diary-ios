@@ -87,7 +87,7 @@
 				FD54BFCF2C2E37C70059932A /* docs */,
 				FD54BFCE2C2E36950059932A /* README.md */,
 				FD54A8A02C30DF6900B209E5 /* CHANGELOG.md */,
-				FD66AB7F2C1B8F6D0018C2B8 /* Hitchhiking Diary */,
+				FD66AB7F2C1B8F6D0018C2B8 /* HitchhikingDiary */,
 				FD66AB7E2C1B8F6D0018C2B8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -100,7 +100,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FD66AB7F2C1B8F6D0018C2B8 /* Hitchhiking Diary */ = {
+		FD66AB7F2C1B8F6D0018C2B8 /* HitchhikingDiary */ = {
 			isa = PBXGroup;
 			children = (
 				FD66ABB52C1BAEBD0018C2B8 /* State */,
@@ -112,7 +112,7 @@
 				FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */,
 				FD66AB882C1B8F6E0018C2B8 /* Preview Content */,
 			);
-			path = "Hitchhiking Diary";
+			path = HitchhikingDiary;
 			sourceTree = "<group>";
 		};
 		FD66AB882C1B8F6E0018C2B8 /* Preview Content */ = {
@@ -402,7 +402,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_ASSET_PATHS = "\"Hitchhiking Diary/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"HitchhikingDiary/Preview Content\"";
 				DEVELOPMENT_TEAM = 3D6D8LQ6F2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -436,7 +436,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_ASSET_PATHS = "\"Hitchhiking Diary/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"HitchhikingDiary/Preview Content\"";
 				DEVELOPMENT_TEAM = 3D6D8LQ6F2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
