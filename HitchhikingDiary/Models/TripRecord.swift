@@ -2,6 +2,7 @@ import Foundation
 import CoreLocation
 import SwiftUI
 import SwiftData
+import AppIntents
 
 enum TripRecordType: String, Codable, CaseIterable {
     case interesting
@@ -44,6 +45,20 @@ enum TripRecordType: String, Codable, CaseIterable {
             return Image(systemName: "pencil")
         }
     }
+}
+
+extension TripRecordType: AppEnum {
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Trip Record Type"
+    
+    // FIXME: This sucks very much. Problem is, that I cannot cast Image (TripRecordType->icon()) to DisplayRepresentation.Image. Thats why no reduce() right now
+    static var caseDisplayRepresentations: [TripRecordType: DisplayRepresentation] = [
+        .interesting: DisplayRepresentation(title: "Interesting", image: DisplayRepresentation.Image(systemName: "star.fill")),
+        .camping: DisplayRepresentation(title: "Camping", image: DisplayRepresentation.Image(systemName: "tent.fill")),
+        .workout: DisplayRepresentation(title: "Workout", image: DisplayRepresentation.Image(systemName: "figure.hiking")),
+        .pickup: DisplayRepresentation(title: "Pickup", image: DisplayRepresentation.Image(systemName: "figure.wave")),
+        .dropoff: DisplayRepresentation(title: "Dropoff", image: DisplayRepresentation.Image(systemName: "car.top.door.front.right.open")),
+        .story: DisplayRepresentation(title: "Story", image: DisplayRepresentation.Image(systemName: "pencil")),
+    ]
 }
 
 @Model

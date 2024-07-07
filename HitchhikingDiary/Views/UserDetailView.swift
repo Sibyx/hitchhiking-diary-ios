@@ -127,7 +127,7 @@ struct UserDetailView: View {
     
     private func syncTrips() async {
         self.isSyncing = true
-        let apiClient = APIClient(token: appState.token)
+        let apiClient = APIClient(baseUrl: appState.apiBaseUrl, token: appState.token)
         let syncService = SyncService(apiClient: apiClient, appState: appState)
         
         await syncService.sync { result in
@@ -146,7 +146,7 @@ struct UserDetailView: View {
     
     private func fetchUser() {
         self.isSyncing = true
-        let apiClient = APIClient(token: appState.token)
+        let apiClient = APIClient(baseUrl: appState.apiBaseUrl, token: appState.token)
         
         apiClient.readUser { result in
             DispatchQueue.main.async {

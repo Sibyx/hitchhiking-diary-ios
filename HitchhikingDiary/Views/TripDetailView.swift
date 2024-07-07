@@ -5,6 +5,7 @@ import MapKit
 struct TripDetailView: View {
     @Environment(\.database) private var database
     @Bindable var trip: Trip
+    @EnvironmentObject var appState: AppState
     
     var groupedRecords: [(key: Date, value: [TripRecord])] {
         let sortedRecords = trip.records.filter{item in item.deletedAt == nil}.sorted { $0.happenedAt > $1.happenedAt }
@@ -23,6 +24,15 @@ struct TripDetailView: View {
                 Text(trip.status.title().capitalized)
                     .font(.caption)
                     .foregroundColor(.secondary)
+                Image(systemName: "safari").font(.caption)
+                Text("explore.hitchhikingdiary.app")
+                    .font(.caption)
+                    .foregroundColor(.blue)
+                    .onTapGesture {
+                        if let url = URL(string: "\(appState.apiBaseUrl)/trips/\(trip.id)") {
+                            UIApplication.shared.open(url)
+                        }
+                    }
             }
             .padding()
             

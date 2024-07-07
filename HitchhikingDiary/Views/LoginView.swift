@@ -64,7 +64,7 @@ struct LoginView: View {
     }
     
     private func login() {
-        let apiClient = APIClient()
+        let apiClient = APIClient(baseUrl: appState.apiBaseUrl)
         
         apiClient.createToken(username: username, password: password) { result in
             DispatchQueue.main.async {

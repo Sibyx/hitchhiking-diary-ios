@@ -20,10 +20,13 @@ class AppState: ObservableObject {
         }
     }
     
+    let apiBaseUrl: String
+    
     init() {
         self.token = UserDefaults.standard.string(forKey: "token")
         self.username = UserDefaults.standard.string(forKey: "username")
         self.lastSyncAt = UserDefaults.standard.object(forKey: "lastSyncAt") as? Date
+        self.apiBaseUrl = "https://explore.hitchhikingdiary.app"
     }
 
     func logout() async {
@@ -31,9 +34,5 @@ class AppState: ObservableObject {
         self.username = nil
         self.lastSyncAt = nil
         try! await SharedDatabase.shared.database.delete(model: Trip.self)
-    }
-    
-    func sync() {
-        
     }
 }

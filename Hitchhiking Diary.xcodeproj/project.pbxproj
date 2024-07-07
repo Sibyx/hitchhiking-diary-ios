@@ -14,6 +14,8 @@
 		FD54BFCD2C2E196A0059932A /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54BFCC2C2E196A0059932A /* SyncService.swift */; };
 		FD54BFD22C2F35270059932A /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD54BFD12C2F35270059932A /* StorageService.swift */; };
 		FD59F97B2C1BC4650094FB6F /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD59F97A2C1BC4650094FB6F /* PhotoPicker.swift */; };
+		FD658E9B2C34C68200066A0F /* AddTripRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD658E9A2C34C68200066A0F /* AddTripRecord.swift */; };
+		FD658E9D2C34D28300066A0F /* ShortcutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD658E9C2C34D28300066A0F /* ShortcutProvider.swift */; };
 		FD66AB812C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */; };
 		FD66AB872C1B8F6E0018C2B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */; };
 		FD66AB8A2C1B8F6E0018C2B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD66AB892C1B8F6E0018C2B8 /* Preview Assets.xcassets */; };
@@ -43,6 +45,9 @@
 		FD54BFD02C2E37E60059932A /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpg; sourceTree = "<group>"; };
 		FD54BFD12C2F35270059932A /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		FD59F97A2C1BC4650094FB6F /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		FD658E9A2C34C68200066A0F /* AddTripRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripRecord.swift; sourceTree = "<group>"; };
+		FD658E9C2C34D28300066A0F /* ShortcutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutProvider.swift; sourceTree = "<group>"; };
+		FD658E9E2C34E04300066A0F /* Hitchhiking-Diary-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Hitchhiking-Diary-Info.plist"; sourceTree = "<group>"; };
 		FD66AB7D2C1B8F6D0018C2B8 /* Hitchhiking Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hitchhiking Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD66AB802C1B8F6D0018C2B8 /* HitchhikingDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitchhikingDiaryApp.swift; sourceTree = "<group>"; };
 		FD66AB862C1B8F6E0018C2B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,9 +86,19 @@
 			path = docs;
 			sourceTree = "<group>";
 		};
+		FD658E992C34C67000066A0F /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				FD658E9A2C34C68200066A0F /* AddTripRecord.swift */,
+				FD658E9C2C34D28300066A0F /* ShortcutProvider.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		FD66AB742C1B8F6C0018C2B8 = {
 			isa = PBXGroup;
 			children = (
+				FD658E9E2C34E04300066A0F /* Hitchhiking-Diary-Info.plist */,
 				FD54BFCF2C2E37C70059932A /* docs */,
 				FD54BFCE2C2E36950059932A /* README.md */,
 				FD54A8A02C30DF6900B209E5 /* CHANGELOG.md */,
@@ -103,6 +118,7 @@
 		FD66AB7F2C1B8F6D0018C2B8 /* HitchhikingDiary */ = {
 			isa = PBXGroup;
 			children = (
+				FD658E992C34C67000066A0F /* Intents */,
 				FD66ABB52C1BAEBD0018C2B8 /* State */,
 				FD66AB942C1B9A900018C2B8 /* Utils */,
 				FD66AB932C1B9A7D0018C2B8 /* Services */,
@@ -249,6 +265,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD85A99B2C2A24E400D07598 /* TripRecordFormView.swift in Sources */,
+				FD658E9B2C34C68200066A0F /* AddTripRecord.swift in Sources */,
+				FD658E9D2C34D28300066A0F /* ShortcutProvider.swift in Sources */,
 				FD54BFCB2C2E18650059932A /* APIClient.swift in Sources */,
 				FD54BFCD2C2E196A0059932A /* SyncService.swift in Sources */,
 				FD66ABB72C1BAEC60018C2B8 /* AppState.swift in Sources */,
@@ -401,13 +419,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"HitchhikingDiary/Preview Content\"";
 				DEVELOPMENT_TEAM = 3D6D8LQ6F2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Hitchhiking-Diary-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Hitchhiking Diary";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We would like to mark your location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We would like to mark your location";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We would like to mark your location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We would like to mark your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -435,13 +457,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"HitchhikingDiary/Preview Content\"";
 				DEVELOPMENT_TEAM = 3D6D8LQ6F2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Hitchhiking-Diary-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Hitchhiking Diary";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We would like to mark your location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We would like to mark your location";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We would like to mark your location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We would like to mark your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

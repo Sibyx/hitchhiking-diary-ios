@@ -21,11 +21,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     func checkAuthorizationStatus() {
         switch locationManager.authorizationStatus {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+        case .notDetermined, .authorizedWhenInUse:
+            locationManager.requestAlwaysAuthorization()
         case .restricted, .denied:
             self.locationError = CLError(.denied)
-        case .authorizedAlways, .authorizedWhenInUse:
+        case .authorizedAlways:
             locationManager.startUpdatingLocation()
         @unknown default:
             self.locationError = CLError(.locationUnknown)

@@ -2,6 +2,7 @@ import Foundation
 import CoreLocation
 import SwiftData
 import SwiftUI
+import AppIntents
 
 enum TripStatus: String, Codable, CaseIterable {
     case inProgress = "in-progress"
@@ -43,7 +44,7 @@ enum TripStatus: String, Codable, CaseIterable {
 }
 
 @Model
-class Trip {
+final class Trip {
     @Attribute(.unique) var id: UUID
     var title: String
     var content: String
@@ -62,5 +63,41 @@ class Trip {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.deletedAt = deletedAt
+    }
+}
+
+struct TripIntentItem: Identifiable {
+    var id: UUID = UUID()
+    var title: String
+}
+
+
+extension TripIntentItem: AppEntity {
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Trip"
+    
+    var displayRepresentation: DisplayRepresentation {
+        .init(title: LocalizedStringResource(stringLiteral: title))
+    }
+    
+    static var defaultQuery = TripIntentQuery()
+}
+
+struct TripIntentQuery: EntityQuery {
+    func entities(for identifiers: [UUID]) async throws -> [TripIntentItem] {
+        try! await SharedDatabase.shared.database.fetch(#Predicate<Trip> { trip in
+            identifiers.contains(trip.id)
+        }).compactMap {
+            TripIntentItem(id: $0.id, title: $0.title)
+        }
+    }
+    
+    func suggestedEntities() async throws -> [TripIntentItem] {
+        
+        return try await SharedDatabase.shared.database
+            .fetch(#Predicate<Trip> { trip in trip.deletedAt == nil})
+            .filter({$0.status == TripStatus.inProgress})
+            .compactMap {
+                TripIntentItem(id: $0.id, title: $0.title)
+            }
     }
 }
