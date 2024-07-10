@@ -31,6 +31,7 @@
 		FD85A9992C29E8C600D07598 /* TripFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85A9982C29E8C600D07598 /* TripFormView.swift */; };
 		FD85A99B2C2A24E400D07598 /* TripRecordFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */; };
 		FD944AD82C1FA170005F825E /* TripRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */; };
+		FDCB24102C3DFDF800F98DB2 /* CreateTripStoryURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCB240F2C3DFDF800F98DB2 /* CreateTripStoryURL.swift */; };
 		FDF36B2A2C1F3BBD00F2E49D /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF36B292C1F3BBD00F2E49D /* Photo.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		FD85A9982C29E8C600D07598 /* TripFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripFormView.swift; sourceTree = "<group>"; };
 		FD85A99A2C2A24E400D07598 /* TripRecordFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordFormView.swift; sourceTree = "<group>"; };
 		FD944AD72C1FA170005F825E /* TripRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecordDetailView.swift; sourceTree = "<group>"; };
+		FDCB240F2C3DFDF800F98DB2 /* CreateTripStoryURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTripStoryURL.swift; sourceTree = "<group>"; };
 		FDF36B292C1F3BBD00F2E49D /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				FD658E9A2C34C68200066A0F /* AddTripRecord.swift */,
+				FDCB240F2C3DFDF800F98DB2 /* CreateTripStoryURL.swift */,
 				FD658E9C2C34D28300066A0F /* ShortcutProvider.swift */,
 			);
 			path = Intents;
@@ -274,6 +277,7 @@
 				FD66ABB92C1BAEE60018C2B8 /* ContentView.swift in Sources */,
 				FD54BFD22C2F35270059932A /* StorageService.swift in Sources */,
 				FD59F97B2C1BC4650094FB6F /* PhotoPicker.swift in Sources */,
+				FDCB24102C3DFDF800F98DB2 /* CreateTripStoryURL.swift in Sources */,
 				FD66AB9C2C1B9C770018C2B8 /* TripListView.swift in Sources */,
 				FD66AB9A2C1B9C050018C2B8 /* LoginView.swift in Sources */,
 				FD66ABA02C1B9CD50018C2B8 /* TripDetailView.swift in Sources */,
@@ -419,7 +423,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"HitchhikingDiary/Preview Content\"";
 				DEVELOPMENT_TEAM = 3D6D8LQ6F2;
 				ENABLE_PREVIEWS = YES;
@@ -457,7 +461,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"HitchhikingDiary/Preview Content\"";
 				DEVELOPMENT_TEAM = 3D6D8LQ6F2;
 				ENABLE_PREVIEWS = YES;

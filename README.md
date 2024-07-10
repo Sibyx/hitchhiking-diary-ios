@@ -19,3 +19,9 @@ Hitchhiking Diary is a simple iOS application designed for hitchhikers who want 
 - **Platform:** iOS
 - **Languages:** Swift, SwiftUI
 - **Data Management:** SwiftData
+
+---
+Created with ❤️ using ☕️ and 🍓 during my stay in 🇳🇴
+
+If you enjoy using this project, consider donating! Your donations will go towards therapy sessions because
+I'm an alcoholic and substance abuser and this is my cry for help. Cheers 🍻!

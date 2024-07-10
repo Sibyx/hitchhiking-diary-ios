@@ -74,7 +74,7 @@ struct TripListView: View {
                     HStack(alignment: .top) {
                         Image(systemName: "mappin.circle")
                             .font(.footnote)
-                        Text("\(trip.records.count)")
+                        Text("\(trip.records.filter{$0.deletedAt == nil}.count)")
                             .font(.footnote)
                             .foregroundColor(.secondary)
                     }

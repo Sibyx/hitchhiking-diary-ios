@@ -1,5 +1,5 @@
 import SwiftUI
-import SwiftData
+import Combine
 import MapKit
 
 struct TripDetailView: View {
@@ -7,8 +7,17 @@ struct TripDetailView: View {
     @Bindable var trip: Trip
     @EnvironmentObject var appState: AppState
     
+    @State private var showingDatePicker = false
+    @State private var showingShareSheet = false
+    @State private var selectedDate = Date()
+    @State private var shareImage: UIImage? = nil
+    @State private var cancellable: AnyCancellable?
+    @State private var isLoading = false
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
+    
     var groupedRecords: [(key: Date, value: [TripRecord])] {
-        let sortedRecords = trip.records.filter{item in item.deletedAt == nil}.sorted { $0.happenedAt > $1.happenedAt }
+        let sortedRecords = trip.records.filter { $0.deletedAt == nil }.sorted { $0.happenedAt > $1.happenedAt }
         let grouped = Dictionary(grouping: sortedRecords) { (record: TripRecord) -> Date in
             let components = Calendar.current.dateComponents([.year, .month, .day], from: record.happenedAt)
             return Calendar.current.date(from: components)!
@@ -41,8 +50,7 @@ struct TripDetailView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Map() {
-                ForEach(trip.records.filter{item in item.deletedAt == nil}, id:\.self) {
-                    record in
+                ForEach(trip.records.filter { $0.deletedAt == nil }, id: \.self) { record in
                     Annotation(record.type.title(), coordinate: record.location) {
                         record.type.icon()
                     }
@@ -86,11 +94,99 @@ struct TripDetailView: View {
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
+                Button(action: shareTrip) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: TripRecordFormView(tripRecord: nil, trip: trip)) {
                     Image(systemName: "plus")
                 }
             }
         }
         .navigationTitle(trip.title)
+        .sheet(isPresented: $showingShareSheet, content: {
+            if let shareImage = shareImage {
+                ShareSheet(activityItems: [shareImage])
+            }
+        })
+        .sheet(isPresented: $showingDatePicker) {
+            VStack {
+                DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .padding()
+                Button("Share") {
+                    showingDatePicker = false
+                    fetchShareImage()
+                }
+                .padding()
+            }
+            .presentationDetents([.fraction(0.6)])
+        }
+        .overlay {
+            if isLoading {
+                LoaderView()
+            }
+        }
+        .alert(isPresented: $showErrorAlert) {
+            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+        }
     }
+    
+    private func shareTrip() {
+        if trip.status == .inProgress {
+            showingDatePicker = true
+        } else {
+            fetchShareImage()
+        }
+    }
+    
+    private func fetchShareImage() {
+        isLoading = true
+        let dateString = trip.status == .inProgress ? selectedDate.string(format: "yyyy-MM-dd") : nil
+        let urlString = "\(appState.apiBaseUrl)/images/v1/story/\(trip.id)\(dateString != nil ? "?day=\(dateString!)" : "")"
+        
+        guard let url = URL(string: urlString) else {
+            isLoading = false
+            showErrorAlert = true
+            errorMessage = "Invalid URL."
+            return
+        }
+        
+        cancellable = URLSession.shared.dataTaskPublisher(for: url)
+            .map { UIImage(data: $0.data) }
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self.isLoading = false
+                    self.showErrorAlert = true
+                    self.errorMessage = "Failed to load image."
+                }
+            } receiveValue: { image in
+                self.isLoading = false
+                if let image = image {
+                    self.shareImage = image
+                    self.showingShareSheet = true
+                } else {
+                    self.showErrorAlert = true
+                    self.errorMessage = "Failed to load image."
+                }
+            }
+    }
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    var activityItems: [Any]
+    var applicationActivities: [UIActivity]? = nil
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+        controller.excludedActivityTypes = [.assignToContact, .addToReadingList]
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
